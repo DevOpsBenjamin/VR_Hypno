@@ -5,14 +5,13 @@
 </template>
 
 <script setup lang="ts">
-import { appWindow } from '@tauri-apps/api/window';
-const isDev = import.meta.env.DEV;
+const isDev = import.meta.env && import.meta.env.DEV;
 
 async function goToPlayer() {
   if (isDev) {
-    await appWindow.eval('window.location.replace("http://localhost:5174")');
+    window.location.replace("http://localhost:5174");
   } else {
-    await appWindow.eval('window.location.replace("/player/index.html")');
+    window.location.replace("/player/index.html");
   }
 }
 </script>
