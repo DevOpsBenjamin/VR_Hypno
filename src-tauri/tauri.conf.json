@@ -6,7 +6,7 @@
     "distDir": "../dist"
   },
   "package": {
-    "productName": "WebXR Test",
+    "productName": "VR_Hypno",
     "version": "1.0.0"
   },
   "tauri": {

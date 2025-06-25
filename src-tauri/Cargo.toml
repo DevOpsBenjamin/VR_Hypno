@@ -1,11 +1,12 @@
 [package]
-name = "tauri-webxr-test"
+name = "vr-hypno"
 version = "1.0.0"
-description = "WebXR Test with Tauri"
-authors = ["you"]
-license = ""
+description = "VR Hypno est une application innovante qui combine la technologie de réalité virtuelle avec les techniques d'hypnose. Cette application offre une expérience immersive aux utilisateurs recherchant des séances."
+authors = ["XchanBik <devops.benjamin@gmail.com>"]
+license = "MIT"
 repository = ""
 edition = "2021"
+
 
 [build-dependencies]
 tauri-build = { version = "1.5", features = [] }
