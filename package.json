@@ -4,8 +4,12 @@
   "description": "Test WebXR compatibility in Tauri",
   "main": "index.js",
   "scripts": {
-    "dev": "tauri dev",
-    "build": "tauri build",
+    "dev": "concurrently \"npm:dev:vue\" \"npm:dev:player\" \"tauri dev\"",
+    "dev:vue": "cd frontend-vue && npx vite",
+    "dev:player": "cd frontend-player && npx vite",
+    "build": "npm run build:vue && npm run build:player && tauri build",
+    "build:vue": "cd frontend-vue && npx vite build",
+    "build:player": "cd frontend-player && npx vite build",
     "tauri": "tauri"
   },
   "dependencies": {
@@ -13,6 +17,7 @@
     "three": "^0.160.0"
   },
   "devDependencies": {
-    "@tauri-apps/cli": "^1.5.8"
+    "@tauri-apps/cli": "^1.5.8",
+    "concurrently": "^9.2.0"
   }
 }
