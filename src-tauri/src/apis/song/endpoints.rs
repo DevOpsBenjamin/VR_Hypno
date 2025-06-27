@@ -99,6 +99,7 @@ pub fn import_song_audio_internal(app: AppHandle, source_path: String) -> Result
     let uid = nanoid::nanoid!();
     let dir = songs_dir(&app).join(&uid);
     let dest = dir.join("audio.mp3");
+    let source_name = PathBuf::from(&source_path);
     fs::create_dir_all(dest.parent().unwrap())
         .map_err(|e| e.to_string())?;
     fs::copy(&source_path, &dest)
@@ -106,7 +107,7 @@ pub fn import_song_audio_internal(app: AppHandle, source_path: String) -> Result
     let duration = get_song_duration(&dest)
         .map_err(|e| format!("Failed to get song duration: {}", e))?;
     let info = SongInfo {
-        name: dest.file_name()
+        name: source_name.file_stem()
             .and_then(|n| n.to_str())
             .unwrap_or("Unknown")
             .to_string(),
