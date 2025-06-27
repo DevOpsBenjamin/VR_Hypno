@@ -12,7 +12,7 @@
           <p class="text-brand-400 text-base font-semibold">{{ sessions.length }} {{ t('sessions') }}</p>
         </div>
       </div>
-      <button @click="() => { showAddPopup.value = true; loadSongs(); }"
+      <button @click="openAddPopup"
         class="bg-brand-600 hover:bg-brand-700 text-white rounded-lg px-6 py-3 flex items-center gap-2 shadow-sm hover:shadow-md transition-all duration-200 text-base font-medium border border-brand-100"
         :title="t('sessions')">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -41,14 +41,16 @@
             {{ t('retry') }}
           </button>
         </div>
-        <div v-else>
+        <div v-else>          
+          <!-- État vide -->
           <div v-if="sessions.length === 0" class="text-center py-10">
             <div class="w-20 h-20 bg-gradient-to-br from-brand-100 to-brand-300 rounded-full flex items-center justify-center mx-auto mb-4 shadow-xl">
-              <span class="text-pink-500 w-16 h-16 mx-auto block">🎵</span>
+              <span v-html="MusicIcon" class="text-pink-500 w-16 h-16 mx-auto block"></span>
             </div>
-            <h3 class="text-xl font-bold text-brand-700 mb-2">{{ t('sessions') }}</h3>
-            <p class="text-brand-400 mb-6">{{ t('loading') }}</p>
+            <h3 class="text-xl font-bold text-brand-700 mb-2">{{ t('noSessions') }}</h3>
+            <p class="text-brand-400 mb-6">Créez votre première playlist pour commencer</p>
           </div>
+          <!-- Grille des sessions -->
           <div v-else class="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             <div v-for="session in sessions" :key="session.uid" class="bg-brand-50 rounded-2xl shadow-lg px-6 py-5 mb-4 flex items-center justify-between border-2 border-brand-200">
               <div class="flex flex-col flex-1 min-w-0">
@@ -98,6 +100,7 @@ import { getSessions, createSession, deleteSession } from '@shared/domains/sessi
 import type { Session } from '@shared/domains/session/types';
 import type { Song } from '@shared/domains/song/types';
 import { confirmDialog } from "@shared/utils/confirmDialog";
+import { MusicIcon } from '@shared/icons/svg'
 
 const sessions = ref<Session[]>([]);
 const loading = ref(true);
@@ -122,11 +125,17 @@ async function loadSongs() {
   }
 }
 
+async function openAddPopup() {
+  showAddPopup.value = true;
+  loadSongs();
+}
+
 async function loadSessions() {
   loading.value = true;
   error.value = null;
   try {
     const result = await getSessions();
+    console.log('getSessions result:', result);
     if (result?.success) {
       sessions.value = result.data?.sessions || [];
     } else {
