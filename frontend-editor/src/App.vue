@@ -15,7 +15,7 @@ const t = useI18n(locale);
 <template>
   <div class="h-screen flex flex-col overflow-hidden">
     <!-- HEADER SECTION -->
-    <div class="w-full h-20 flex-shrink-0" style="background: #ff4dd2;">
+    <div class="w-full h-20 flex-shrink-0 bg-brand-500">
       <Header />
     </div>
 
@@ -24,7 +24,7 @@ const t = useI18n(locale);
       <!-- LEFT SIDEBAR -->
       <EditorSidebar v-if="nav.path[0] === 'editor'" />
       <!-- RIGHT CONTENT -->
-      <div class="flex-1 min-w-0" style="background: #51e898;">
+      <div class="flex-1 min-w-0 bg-brand-50">
         <div class="h-full w-full">
           <PlayerManager v-if="nav.path[0] === 'player'" />
           <EditorManager v-else-if="nav.path[0] === 'editor'" />

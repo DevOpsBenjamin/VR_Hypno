@@ -100,11 +100,11 @@ onMounted(loadPlaylists)
     <!-- Header avec titre et bouton d'ajout -->
     <div class="flex items-center justify-between mb-6">
       <div class="flex items-center gap-3">
-        <div class="w-12 h-12 bg-gradient-to-br from-brand-400 to-brand-600 rounded-2xl flex items-center justify-center shadow-2xl">
+        <div class="w-12 h-12 bg-brand-200 rounded-lg flex items-center justify-center shadow-md">
           <span v-html="MusicIcon" class="text-white w-10 h-10 inline-flex items-center justify-center"></span>
         </div>
         <div>
-          <h1 class="text-3xl font-extrabold bg-gradient-to-r from-brand-700 via-brand-500 to-brand-400 bg-clip-text text-transparent drop-shadow-brand">
+          <h1 class="text-3xl font-bold text-brand-700">
             {{ t('playlists') }}
           </h1>
           <p class="text-brand-400 text-base font-semibold">{{ playlists.length }} {{ playlists.length === 1 ? 'playlist' : 'playlists' }}</p>
@@ -112,7 +112,7 @@ onMounted(loadPlaylists)
       </div>
       <button 
         @click="openCreate" 
-        class="bg-gradient-to-r from-brand-500 to-brand-700 hover:from-brand-600 hover:to-brand-800 text-white rounded-2xl px-6 py-3 flex items-center gap-2 shadow-xl hover:shadow-2xl transition-all duration-200 transform hover:scale-105 text-base font-bold border-2 border-brand-200"
+        class="bg-brand-600 hover:bg-brand-700 text-white rounded-lg px-6 py-3 flex items-center gap-2 shadow-sm hover:shadow-md transition-all duration-200 text-base font-medium border border-brand-100"
         :title="t('addPlaylist')"
       >
         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">

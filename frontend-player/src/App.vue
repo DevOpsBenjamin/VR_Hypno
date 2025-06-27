@@ -21,7 +21,7 @@
       {{ xrActive ? 'Stop VR' : 'Start VR' }}
     </button>
     <!-- ThreeJS Canvas for XR/VR -->
-    <canvas id="xr-canvas" style="width:100%;height:400px;display:block;margin:2rem auto 0;"></canvas>
+    <canvas id="xr-canvas" class="w-full" style="height:400px;display:block;margin:2rem auto 0;"></canvas>
     <!-- CPU Tracking -->
     <div v-if="cpuUsage !== null">
       <small>CPU usage (approx): {{ cpuUsage }}%</small>
