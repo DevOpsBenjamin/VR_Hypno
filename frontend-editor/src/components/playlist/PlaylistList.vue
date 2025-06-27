@@ -7,6 +7,7 @@ import type { Playlist } from '@shared/domains/playlist/types'
 import { formatDuration } from '@shared/utils/format'
 import { getPlaylists, createPlaylist, deletePlaylist } from '@shared/domains/playlist/endpoints'
 import { DeleteIcon, EditIcon, MusicIcon } from '@shared/icons/svg'
+import { confirmDialog } from "@shared/utils/confirmDialog";
 
 const playlists = ref<Playlist[]>([])
 const loading = ref(true)
@@ -79,7 +80,8 @@ function openCreate() {
 }
 
 async function deletePlaylistUI(uid: string) {
-  if (!confirm(t('confirmDeletePlaylist'))) return
+  const res = await confirmDialog(t('confirmDeletePlaylist'), t('confirmTitle'));
+  if (!res) return;
   try {
     const result = await deletePlaylist(uid)
     if (result?.success) {

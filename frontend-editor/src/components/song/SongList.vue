@@ -95,14 +95,11 @@ async function addSongUI() {
 }
 
 async function deleteSongUI(uid: string) {
-  console.log("Deleting song with UID:", uid);
   var res = await confirmDialog(t("confirmDeleteSong"), t("confirmTitle"));
   if (!res) return;
 
   try {
-  console.log("delet now song with UID:", uid);
     const result = await deleteSong(uid);
-  console.log("deleted song with UID:", uid);
     if (result?.success) {
       await loadSongs();
     } else {

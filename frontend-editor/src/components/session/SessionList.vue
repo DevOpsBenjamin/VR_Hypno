@@ -97,6 +97,7 @@ import { getSongs } from '@shared/domains/song/endpoints';
 import { getSessions, createSession, deleteSession } from '@shared/domains/session/endpoints';
 import type { Session } from '@shared/domains/session/types';
 import type { Song } from '@shared/domains/song/types';
+import { confirmDialog } from "@shared/utils/confirmDialog";
 
 const sessions = ref<Session[]>([]);
 const loading = ref(true);
@@ -161,7 +162,9 @@ async function addSession() {
 }
 
 async function deleteSessionUI(uid: string) {
-  if (!confirm(t('confirmDeleteSession'))) return;
+  
+  const res = await confirmDialog(t('confirmDeleteSession'), t('confirmTitle'));
+  if (!res) return;
   try {
     const result = await deleteSession(uid);
     if (result?.success) {
