@@ -28,41 +28,12 @@ fn setup_default_data(app: &App) -> Result<(), Box<dyn std::error::Error>> {
     }
     
     // Extraire les données par défaut
-    extract_default_data(&app.app_handle(), &app_data)?;
+    extract_embedded_data(&app_data)?;
     
     // Créer le fichier marqueur
     fs::write(marker_file, "1")?;
     
     println!("Default data extracted successfully");
-    Ok(())
-}
-
-fn extract_default_data(app: &AppHandle, target_dir: &PathBuf) -> Result<(), Box<dyn std::error::Error>> {
-    // Méthode 1: Utiliser resolve_resource pour obtenir le chemin du ZIP
-    let resource_path = app
-        .path_resolver()
-        .resolve_resource("resources/default-data.zip")
-        .ok_or("Default data not found")?;
-    
-    // Extraire le ZIP
-    let file = fs::File::open(&resource_path)?;
-    let mut archive = zip::ZipArchive::new(file)?;
-    
-    for i in 0..archive.len() {
-        let mut file = archive.by_index(i)?;
-        let outpath = target_dir.join(file.name());
-        
-        if file.name().ends_with('/') {
-            fs::create_dir_all(&outpath)?;
-        } else {
-            if let Some(p) = outpath.parent() {
-                fs::create_dir_all(p)?;
-            }
-            let mut outfile = fs::File::create(&outpath)?;
-            std::io::copy(&mut file, &mut outfile)?;
-        }
-    }
-    
     Ok(())
 }
 
