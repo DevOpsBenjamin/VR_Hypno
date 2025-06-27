@@ -19,7 +19,7 @@
     },
     "types": ["vite/client"]
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue", "../BACKUPDATA/Main.vue"],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"],
   "references": [
     { "path": "../shared" }
   ]

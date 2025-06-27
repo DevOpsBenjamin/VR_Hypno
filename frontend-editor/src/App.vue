@@ -33,7 +33,3 @@ const t = useI18n(locale);
     </div>
   </div>
 </template>
-
-<style scoped>
-/* Design 100% Tailwind, pas de CSS custom nécessaire */
-</style>
