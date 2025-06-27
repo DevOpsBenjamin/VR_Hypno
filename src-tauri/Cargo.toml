@@ -21,6 +21,3 @@ nanoid = "0.4"
 [features]
 default = ["custom-protocol"]
 custom-protocol = ["tauri/custom-protocol"]
-
-[package.metadata.tauri]
-resources = ["resources/ressource-pack.zip"]
