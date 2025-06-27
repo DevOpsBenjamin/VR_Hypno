@@ -6,10 +6,12 @@
   "scripts": {
     "dev": "concurrently \"npm:dev:editor\" \"npm:dev:player\" \"tauri dev\"",
     "dev:editor": "cd frontend-editor && npx vite",
-    "dev:player": "cd frontend-player && npx vite",
-    "build": "npm run build:editor && npm run build:player && tauri build",
+    "dev:player": "cd frontend-player && npx vite",    
+    "build": "npm run build:web && tauri build",
     "build:editor": "cd frontend-editor && npx vite build",
     "build:player": "cd frontend-player && npx vite build",
+    "build:copy-index": "copy src-tauri\\index.html dist\\index.html",
+    "build:web": "npm run build:editor && npm run build:player && npm run build:copy-index",    
     "tauri": "tauri"
   },
   "dependencies": {
