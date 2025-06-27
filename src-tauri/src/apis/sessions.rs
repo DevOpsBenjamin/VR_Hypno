@@ -1,6 +1,5 @@
 use serde::{Deserialize, Serialize};
-use std::fs::{self, File};
-use std::io::{Read, Write};
+use std::fs;
 use std::path::PathBuf;
 use tauri::api::path::app_data_dir;
 use tauri::AppHandle;
@@ -18,39 +17,39 @@ pub struct Session {
 }
 
 fn sessions_dir(app: &AppHandle) -> PathBuf {
-    let mut dir = app_data_dir(&app.config()).unwrap();
-    dir.push("sessions");
-    dir
+    app_data_dir(&app.config())
+        .unwrap()
+        .join("sessions")
 }
 
 fn playlists_dir(app: &AppHandle) -> PathBuf {
-    let mut dir = app_data_dir(&app.config()).unwrap();
-    dir.push("playlists");
-    dir
+    app_data_dir(&app.config())
+        .unwrap()
+        .join("playlists")
 }
 
 #[tauri::command]
 pub fn get_sessions(app: AppHandle) -> Result<Vec<Session>, String> {
     let dir = sessions_dir(&app);
-    let mut sessions = Vec::new();
-    if let Ok(entries) = fs::read_dir(&dir) {
-        for entry in entries.flatten() {
-            let path = entry.path().join("info.json");
-            if path.exists() {
-                if let Ok(mut file) = File::open(&path) {
-                    let mut content = String::new();
-                    if file.read_to_string(&mut content).is_ok() {
-                        if let Ok(info) = serde_json::from_str::<SessionInfo>(&content) {
-                            if let Some(uid) = entry.file_name().to_str() {
-                                sessions.push(Session { uid: uid.to_string(), info });
-                            }
-                        }
-                    }
-                }
+    
+    let entries = fs::read_dir(&dir).map_err(|e| e.to_string())?;
+    
+    let mut sessions: Vec<Session> = entries
+        .filter_map(|entry| entry.ok())
+        .filter_map(|entry| {
+            let info_path = entry.path().join("info.json");
+            if !info_path.exists() {
+                return None;
             }
-        }
-    }
-    // Sort by name
+            
+            let uid = entry.file_name().to_str()?.to_string();
+            let content = fs::read_to_string(&info_path).ok()?;
+            let info = serde_json::from_str::<SessionInfo>(&content).ok()?;
+            
+            Some(Session { uid, info })
+        })
+        .collect();
+    
     sessions.sort_by(|a, b| a.info.name.cmp(&b.info.name));
     Ok(sessions)
 }
@@ -58,10 +57,13 @@ pub fn get_sessions(app: AppHandle) -> Result<Vec<Session>, String> {
 #[tauri::command]
 pub fn get_session(app: AppHandle, uid: String) -> Result<Session, String> {
     let path = sessions_dir(&app).join(&uid).join("info.json");
-    let mut file = File::open(&path).map_err(|_| "Session not found")?;
-    let mut content = String::new();
-    file.read_to_string(&mut content).map_err(|_| "Read error")?;
-    let info: SessionInfo = serde_json::from_str(&content).map_err(|_| "Parse error")?;
+    
+    let content = fs::read_to_string(&path)
+        .map_err(|_| "Session not found")?;
+    
+    let info = serde_json::from_str::<SessionInfo>(&content)
+        .map_err(|_| "Invalid session format")?;
+    
     Ok(Session { uid, info })
 }
 
@@ -69,52 +71,68 @@ pub fn get_session(app: AppHandle, uid: String) -> Result<Session, String> {
 pub fn create_session(app: AppHandle, info: SessionInfo) -> Result<Session, String> {
     let uid = nanoid::nanoid!();
     let dir = sessions_dir(&app).join(&uid);
+    
     fs::create_dir_all(&dir).map_err(|e| e.to_string())?;
-    let info_path = dir.join("info.json");
-    let json = serde_json::to_string_pretty(&info).unwrap();
-    let mut file = File::create(&info_path).map_err(|e| e.to_string())?;
-    file.write_all(json.as_bytes()).map_err(|e| e.to_string())?;
+    
+    let json = serde_json::to_string_pretty(&info)
+        .map_err(|e| e.to_string())?;
+    
+    fs::write(dir.join("info.json"), json)
+        .map_err(|e| e.to_string())?;
+    
     Ok(Session { uid, info })
 }
 
 #[tauri::command]
 pub fn update_session(app: AppHandle, uid: String, info: SessionInfo) -> Result<(), String> {
-    let dir = sessions_dir(&app).join(&uid);
-    fs::create_dir_all(&dir).map_err(|e| e.to_string())?;
-    let info_path = dir.join("info.json");
-    let json = serde_json::to_string_pretty(&info).unwrap();
-    let mut file = File::create(&info_path).map_err(|e| e.to_string())?;
-    file.write_all(json.as_bytes()).map_err(|e| e.to_string())?;
-    Ok(())
+    let path = sessions_dir(&app).join(&uid).join("info.json");
+    
+    if !path.exists() {
+        return Err("Session not found".to_string());
+    }
+    
+    let json = serde_json::to_string_pretty(&info)
+        .map_err(|e| e.to_string())?;
+    
+    fs::write(path, json).map_err(|e| e.to_string())
 }
 
 #[tauri::command]
 pub fn delete_session(app: AppHandle, uid: String) -> Result<(), String> {
     let session_dir = sessions_dir(&app).join(&uid);
+    
     if !session_dir.exists() {
-        return Err("Session not found".into());
+        return Err("Session not found".to_string());
     }
+    
     // Check if session is used in any playlist
-    let playlists_dir = playlists_dir(&app);
-    if let Ok(entries) = fs::read_dir(&playlists_dir) {
-        for entry in entries.flatten() {
-            let info_path = entry.path().join("info.json");
-            if info_path.exists() {
-                if let Ok(mut file) = File::open(&info_path) {
-                    let mut content = String::new();
-                    if file.read_to_string(&mut content).is_ok() {
-                        if let Ok(playlist_info) = serde_json::from_str::<serde_json::Value>(&content) {
-                            if let Some(sessions) = playlist_info.get("sessions").and_then(|s| s.as_array()) {
-                                if sessions.iter().any(|s| s.as_str() == Some(&uid)) {
-                                    return Err("Cannot delete session: it is being used in one or more playlists".into());
-                                }
-                            }
-                        }
-                    }
-                }
+    if is_session_in_use(&app, &uid)? {
+        return Err("Cannot delete session: it is being used in one or more playlists".to_string());
+    }
+    
+    fs::remove_dir_all(&session_dir).map_err(|e| e.to_string())
+}
+
+fn is_session_in_use(app: &AppHandle, uid: &str) -> Result<bool, String> {
+    let playlists_dir = playlists_dir(app);
+    let entries = fs::read_dir(&playlists_dir).map_err(|e| e.to_string())?;
+    
+    for entry in entries.filter_map(|e| e.ok()) {
+        let info_path = entry.path().join("info.json");
+        if !info_path.exists() {
+            continue;
+        }
+        
+        let content = fs::read_to_string(&info_path).map_err(|e| e.to_string())?;
+        let playlist_info: serde_json::Value = serde_json::from_str(&content)
+            .map_err(|e| e.to_string())?;
+        
+        if let Some(sessions) = playlist_info.get("sessions").and_then(|s| s.as_array()) {
+            if sessions.iter().any(|s| s.as_str() == Some(uid)) {
+                return Ok(true);
             }
         }
     }
-    fs::remove_dir_all(&session_dir).map_err(|e| e.to_string())?;
-    Ok(())
+    
+    Ok(false)
 }
