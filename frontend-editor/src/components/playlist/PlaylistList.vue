@@ -24,6 +24,7 @@ async function loadPlaylists() {
   error.value = null
   try {
     const result = await getPlaylists()
+    console.log('getPlaylists result:', result)
     if (result?.success) {
       playlists.value = result.data?.playlists || []
     } else {

@@ -70,4 +70,4 @@ onMounted(async () => {
     <div v-if="loading" class="text-center py-8 text-brand-400">{{ t('loading') }}</div>
     <div v-else-if="error" class="text-center py-8 text-red-500">{{ error }}</div>
   </div>
-</template> @/player/three/ThreeJSManager@/utils/i18n@/utils/navigationTree
+</template>

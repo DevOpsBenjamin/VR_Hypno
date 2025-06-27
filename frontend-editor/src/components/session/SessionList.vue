@@ -93,8 +93,10 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { t } from '@shared/utils/i18n';
-import type { Session } from '@shared/session/types';
-import type { Song } from '@shared/song/types';
+import { getSongs } from '@shared/domains/song/endpoints';
+import { getSessions, createSession, deleteSession } from '@shared/domains/session/endpoints';
+import type { Session } from '@shared/domains/session/types';
+import type { Song } from '@shared/domains/song/types';
 
 const sessions = ref<Session[]>([]);
 const loading = ref(true);
@@ -110,10 +112,10 @@ const loadingSongs = ref(false);
 async function loadSongs() {
   loadingSongs.value = true;
   try {
-    const result = await invoke<{ songs: Song[] }>('get_songs', {});
-    songs.value = result.songs || [];
-  } catch (e) {
-    // TODO: i18n error
+    const result = await getSongs();
+    if (result?.success) {
+      songs.value = result.data?.songs || [];
+    }
   } finally {
     loadingSongs.value = false;
   }
@@ -123,8 +125,12 @@ async function loadSessions() {
   loading.value = true;
   error.value = null;
   try {
-    const result = await invoke<{ sessions: Session[] }>('get_sessions', {});
-    sessions.value = result.sessions || [];
+    const result = await getSessions();
+    if (result?.success) {
+      sessions.value = result.data?.sessions || [];
+    } else {
+      error.value = result?.error || t('unknownError');
+    }
   } catch (e: any) {
     error.value = e.message || t('unknownError');
   } finally {
@@ -135,16 +141,20 @@ async function loadSessions() {
 async function addSession() {
   if (!newSessionName.value.trim() || !newSessionSongUid.value) return;
   try {
-    await invoke('create_session', {
+    const result = await createSession({
       info: {
         name: newSessionName.value.trim(),
-        song: newSessionSongUid.value,
+        song_uid: newSessionSongUid.value,
       },
     });
-    showAddPopup.value = false;
-    newSessionName.value = '';
-    newSessionSongUid.value = '';
-    await loadSessions();
+    if (result?.success) {
+      showAddPopup.value = false;
+      newSessionName.value = '';
+      newSessionSongUid.value = '';
+      await loadSessions();
+    } else {
+      error.value = result?.error || t('unknownError');
+    }
   } catch (e: any) {
     error.value = e.message || t('unknownError');
   }
@@ -153,8 +163,12 @@ async function addSession() {
 async function deleteSessionUI(uid: string) {
   if (!confirm(t('confirmDeleteSession'))) return;
   try {
-    await invoke('delete_session', { uid });
-    await loadSessions();
+    const result = await deleteSession(uid);
+    if (result?.success) {
+      await loadSessions();
+    } else {
+      error.value = result?.error || t('unknownError');
+    }
   } catch (e: any) {
     error.value = e.message || t('unknownError');
   }

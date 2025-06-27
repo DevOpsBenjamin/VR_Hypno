@@ -7,3 +7,4 @@ export type CreatePlaylistRequest = { name: string; repeat: boolean; sessions: s
 export type CreatePlaylistResponse = ApiResponse<{ playlist: Playlist }>
 export type UpdatePlaylistRequest = { uid: string; info: Playlist['info'] }
 export type UpdatePlaylistResponse = ApiResponse<null> 
+export type DeletePlaylistResponse = ApiResponse<{}>

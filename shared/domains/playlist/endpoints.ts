@@ -4,47 +4,27 @@ import type {
     CreatePlaylistRequest,
     CreatePlaylistResponse,
     UpdatePlaylistRequest,
-    UpdatePlaylistResponse
+    UpdatePlaylistResponse,
+    DeletePlaylistResponse
 } from './api'
 import { invoke } from '@tauri-apps/api/tauri'
 
 export async function getPlaylists(): Promise<GetPlaylistsResponse> {
-    try {
-        return await invoke<GetPlaylistsResponse>('get_playlists')
-    } catch (error) {
-        return { success: false, error: 'Failed to get playlists: ' + (error as Error).message } as GetPlaylistsResponse
-    }
+  return await invoke<GetPlaylistsResponse>('get_playlists')
 }
 
 export async function getPlaylist(uid: string): Promise<GetPlaylistResponse> {
-    try {
-        return await invoke<GetPlaylistResponse>('get_playlist', { uid })
-    } catch (error) {
-        return { success: false, error: 'Failed to get playlist: ' + (error as Error).message } as GetPlaylistResponse
-    }
+  return await invoke<GetPlaylistResponse>('get_playlist', { uid })
 }
 
 export async function createPlaylist(data: CreatePlaylistRequest): Promise<CreatePlaylistResponse> {
-    try {
-        return await invoke<CreatePlaylistResponse>('create_playlist', { ...data })
-    } catch (error) {
-        return { success: false, error: 'Failed to create playlist: ' + (error as Error).message } as CreatePlaylistResponse
-    }
+  return await invoke<CreatePlaylistResponse>('create_playlist', { ...data })
 }
 
 export async function updatePlaylist(data: UpdatePlaylistRequest): Promise<UpdatePlaylistResponse> {
-    try {
-        return await invoke<UpdatePlaylistResponse>('update_playlist', { ...data })
-    } catch (error) {
-        return { success: false, error: 'Failed to update playlist: ' + (error as Error).message } as UpdatePlaylistResponse
-    }
+  return await invoke<UpdatePlaylistResponse>('update_playlist', { ...data })
 }
 
-export async function deletePlaylist(uid: string): Promise<{ success: boolean; error?: string }> {
-    try {
-        await invoke('delete_playlist', { uid })
-        return { success: true }
-    } catch (error) {
-        return { success: false, error: 'Failed to delete playlist: ' + (error as Error).message }
-    }
+export async function deletePlaylist(uid: string): Promise<DeletePlaylistResponse> {
+  return await invoke<DeletePlaylistResponse>('delete_playlist', { uid })
 }

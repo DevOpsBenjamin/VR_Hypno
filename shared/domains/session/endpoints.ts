@@ -10,42 +10,21 @@ import type {
 import { invoke } from '@tauri-apps/api/tauri'
 
 export async function getSessions(): Promise<GetSessionsResponse> {
-  try {
-    return await invoke<GetSessionsResponse>('get_sessions')
-  } catch (error) {
-    return { success: false, error: 'Failed to get sessions: ' + (error as Error).message } as GetSessionsResponse
-  }
+  return await invoke<GetSessionsResponse>('get_sessions')
 }
 
 export async function getSession(uid: string): Promise<GetSessionResponse> {
-  try {
-    return await invoke<GetSessionResponse>('get_session', { uid })
-  } catch (error) {
-    return { success: false, error: 'Failed to get session: ' + (error as Error).message } as GetSessionResponse
-  }
+  return await invoke<GetSessionResponse>('get_session', { uid })
 }
 
 export async function createSession(data: CreateSessionRequest): Promise<CreateSessionResponse> {
-  try {
-    return await invoke<CreateSessionResponse>('create_session', { ...data })
-  } catch (error) {
-    return { success: false, error: 'Failed to create session: ' + (error as Error).message } as CreateSessionResponse
-  }
+  return await invoke<CreateSessionResponse>('create_session', { ...data })
 }
 
 export async function updateSession(data: UpdateSessionRequest): Promise<UpdateSessionResponse> {
-  try {
-    return await invoke<UpdateSessionResponse>('update_session', { ...data })
-  } catch (error) {
-    return { success: false, error: 'Failed to update session: ' + (error as Error).message } as UpdateSessionResponse
-  }
+  return await invoke<UpdateSessionResponse>('update_session', { ...data })
 }
 
 export async function deleteSession(uid: string): Promise<DeleteSessionResponse> {
-  try {
-    await invoke('delete_session', { uid })
-    return { success: true } as DeleteSessionResponse
-  } catch (error) {
-    return { success: false, error: 'Failed to delete session: ' + (error as Error).message } as DeleteSessionResponse
-  }
+  return await invoke<DeleteSessionResponse>('delete_session', { uid })
 }
