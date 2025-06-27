@@ -7,37 +7,24 @@ import type {
     UpdatePlaylistResponse
   } from './api'
   
-import { invoke } from '@tauri-apps/api/tauri';
-
-  export async function getPlaylists(): Promise<GetPlaylistsResponse> {
-    const res = await fetch('/api/playlists')
-    return res.json()
+// All endpoints return empty for debugging purposes
+  
+export async function getPlaylists(): Promise<GetPlaylistsResponse> {
+    return {} as GetPlaylistsResponse
   }
   
   export async function getPlaylist(uid: string): Promise<GetPlaylistResponse> {
-    const res = await fetch(`/api/playlists/${uid}`)
-    return res.json()
+    return {} as GetPlaylistResponse
   }
   
   export async function createPlaylist(data: CreatePlaylistRequest): Promise<CreatePlaylistResponse> {
-    const res = await fetch('/api/playlists', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    })
-    return res.json()
+    return {} as CreatePlaylistResponse
   }
   
   export async function updatePlaylist(data: UpdatePlaylistRequest): Promise<UpdatePlaylistResponse> {
-    const res = await fetch(`/api/playlists/${data.uid}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ info: data.info })
-    })
-    return res.json()
+    return {} as UpdatePlaylistResponse
   }
-
+  
   export async function deletePlaylist(uid: string): Promise<{ success: boolean; error?: string }> {
-    const res = await fetch(`/api/playlists/${uid}`, { method: 'DELETE' });
-    return res.json();
+    return { success: false, error: 'Not implemented' }
   }

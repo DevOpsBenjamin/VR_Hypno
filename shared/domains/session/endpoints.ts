@@ -8,39 +8,24 @@ import type {
   DeleteSessionResponse
 } from './api'
 
-import { invoke } from '@tauri-apps/api/tauri';
+// All endpoints return empty for debugging purposes
 
 export async function getSessions(): Promise<GetSessionsResponse> {
-  const res = await fetch('/api/sessions')
-  return res.json()
+  return {} as GetSessionsResponse
 }
 
 export async function getSession(uid: string): Promise<GetSessionResponse> {
-  const res = await fetch(`/api/sessions/${uid}`)
-  return res.json()
+  return {} as GetSessionResponse
 }
 
 export async function createSession(data: CreateSessionRequest): Promise<CreateSessionResponse> {
-  const res = await fetch('/api/sessions', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data)
-  })
-  return res.json()
+  return {} as CreateSessionResponse
 }
 
 export async function updateSession(data: UpdateSessionRequest): Promise<UpdateSessionResponse> {
-  const res = await fetch('/api/sessions', {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data)
-  })
-  return res.json()
+  return {} as UpdateSessionResponse
 }
 
 export async function deleteSession(uid: string): Promise<DeleteSessionResponse> {
-  const res = await fetch(`/api/sessions/${uid}`, {
-    method: 'DELETE'
-  })
-  return res.json()
-} 
+  return {} as DeleteSessionResponse
+}
