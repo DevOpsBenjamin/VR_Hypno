@@ -21,8 +21,10 @@
         }
     </style>
     <script>
-        // Redirection automatique vers l'editor
-        window.location.href = './editor/index.html';
+        // Fake loading for 3 seconds, then redirect to editor
+        setTimeout(() => {
+            window.location.replace("./editor/index.html");
+        }, 3000);
     </script>
 </head>
 <body>
