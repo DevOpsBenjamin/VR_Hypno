@@ -23,7 +23,7 @@
     "bundle": {
       "active": true,
       "targets": "all",
-      "identifier": "com.test.webxr",
+      "identifier": "com.devopsbenjamin.hypnovr",
       "icon": [
         "icons/icon.ico"
       ]
