@@ -8,4 +8,5 @@ export type AddSongRequest = { info: SongInfo }
 export type AddSongResponse = ApiResponse<{ song: Song }>
 export type UpdateSongRequest = { uid: string; info: SongInfo }
 export type UpdateSongResponse = ApiResponse<{}>
-export type DeleteSongResponse = ApiResponse<{}> 
+export type DeleteSongResponse = ApiResponse<{}>
+export type GetSongAudioUrlResponse = ApiResponse<{ url: string }>
