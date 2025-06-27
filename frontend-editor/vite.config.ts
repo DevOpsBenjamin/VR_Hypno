@@ -12,7 +12,7 @@ export default defineConfig({
     },
   },
   build: {
-    outDir: '../dist/player',
+    outDir: '../dist/editor',
     emptyOutDir: true,
     rollupOptions: {
       external: [
@@ -22,6 +22,6 @@ export default defineConfig({
     },
   },
   server: {
-    port: 5174
+    port: 5173
   },
 });

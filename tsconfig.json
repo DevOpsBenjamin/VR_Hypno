@@ -1,0 +1,8 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./frontend-editor" },
+    { "path": "./frontend-player" },
+    { "path": "./shared" }
+  ]
+}
