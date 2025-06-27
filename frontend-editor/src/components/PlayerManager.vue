@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useNavigationStore } from '../store/navigation'
-import PlaylistManager from '@/components/PlaylistManager.vue'
+import PlaylistManager from '@/components/playlist/PlaylistManager.vue'
 
 const nav = useNavigationStore()
 </script>

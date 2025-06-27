@@ -8,7 +8,8 @@ use tauri::AppHandle;
 pub struct SongInfo {
     pub name: String,
     pub duration: Option<u64>,
-    // Add other fields as needed
+    pub tags: Option<Vec<String>>,
+    pub triggers: Option<Vec<String>>,
 }
 
 #[derive(Serialize, Deserialize, Clone)]

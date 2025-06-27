@@ -1,3 +1,4 @@
+use crate::types::threejs::ThreeJSConfig;
 use serde::{Deserialize, Serialize};
 use std::fs;
 use std::path::PathBuf;
@@ -7,7 +8,9 @@ use tauri::AppHandle;
 #[derive(Serialize, Deserialize, Clone)]
 pub struct SessionInfo {
     pub name: String,
-    // Add other fields as needed
+    pub song_uid: String,
+    pub description: Option<String>,
+    pub threejs_config: Option<ThreeJSConfig>,
 }
 
 #[derive(Serialize, Deserialize, Clone)]

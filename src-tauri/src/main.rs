@@ -9,6 +9,9 @@ mod apis {
     pub mod sessions;
     pub mod playlist;
 }
+mod types {
+    pub mod threejs;
+}
 
 fn app_data_dir(app: &AppHandle) -> PathBuf {
     tauri::api::path::app_data_dir(&app.config()).unwrap()

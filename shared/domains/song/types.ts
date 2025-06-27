@@ -1,12 +1,12 @@
 export interface SongInfo {
-  name: string;
-  duration: number;
-  audioUrl: string;
-  tags?: string[];
-  triggers?: string[];
+    name: string;
+    duration: number;
+    tags?: string[];
+    triggers?: string[];
 }
-
+  
+// Pour l'usage UI/backend :
 export interface Song {
   uid: string;
   info: SongInfo;
-}
+} 
