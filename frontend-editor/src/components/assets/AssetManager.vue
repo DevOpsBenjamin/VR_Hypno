@@ -1,8 +1,14 @@
+<script setup lang="ts">
+import { useNavigationStore } from '@/store/navigation'
+import AssetList from './AssetList.vue';
+import AssetEditor from './AssetEditor.vue';
+
+const nav = useNavigationStore()
+</script>
+
 <template>
-    <div class="w-full h-full bg-brand-50 rounded-xl shadow-lg flex items-center justify-center">
-      <div class="text-center text-brand-700">
-        <div class="text-2xl font-bold mb-2">Asset Manager</div>
-        <div class="text-brand-400">(Assets placeholder)</div>
-      </div>
-    </div>
+  <div class="p-4 overflow-y-auto h-full">
+    <AssetList v-if="nav.path[1] === 'list'" />
+    <AssetEditor v-else-if="nav.path[1] === 'edit'"/>
+  </div>
 </template>

@@ -57,7 +57,7 @@
                 <span class="block font-extrabold text-lg text-brand-700 whitespace-normal break-words min-w-[120px]">{{ session.info.name }}</span>
               </div>
               <div class="flex gap-2">
-                <button @click="() => {/* TODO: open editor for session */}" class="bg-brand-200 hover:bg-brand-300 text-brand-700 rounded-full p-2 transition shadow" :title="t('edit')">
+                <button @click="() =>openEditor(session.uid)" class="bg-brand-200 hover:bg-brand-300 text-brand-700 rounded-full p-2 transition shadow" :title="t('edit')">
                   <span class="text-3xl">{{ PenEmoji }}</span>
                 </button>
                 <button @click="() => deleteSessionUI(session.uid)" class="bg-red-200 hover:bg-red-300 text-red-700 rounded-full p-2 transition shadow" :title="t('delete')">
@@ -95,6 +95,8 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { t } from '@shared/utils/i18n';
+import { useNavigationStore } from '@/store/navigation'
+import { nav, NavigationPath, SessionEditOption } from '@/utils/navigationTree'
 import { getSongs } from '@shared/domains/song/endpoints';
 import { getSessions, createSession, deleteSession } from '@shared/domains/session/endpoints';
 import type { Session } from '@shared/domains/session/types';
@@ -106,6 +108,7 @@ import { PenEmoji, TrashEmoji, BrainEmoji } from '@shared/icons/emoji';
 const sessions = ref<Session[]>([]);
 const loading = ref(true);
 const error = ref<string | null>(null);
+const navStore = useNavigationStore()
 
 // Popup state
 const showAddPopup = ref(false);
@@ -169,6 +172,10 @@ async function addSession() {
   } catch (e: any) {
     error.value = e.message || t('unknownError');
   }
+}
+
+function openEditor(uid: string) {
+  navStore.navigateTo(nav.sessions.edit as NavigationPath, { uid } as SessionEditOption)
 }
 
 async function deleteSessionUI(uid: string) {

@@ -1,0 +1,17 @@
+{
+  "tracks": [
+    {
+      "id": "cube1",
+      "type": "object",
+      "objectType": "mesh",
+      "assetID": "mycube",
+      "spawn": 15.0,
+      "despawn": 35.0,
+      "timeline": [
+        { "start": 15.0, "end": 20.0, "action": "rotate", "axis": "y", "from": 0, "to": 180 },
+        { "start": 20.0, "end": 30.0, "action": "move", "from": [0,0,0], "to": [2,0,0] },
+        { "start": 32.0, "end": 35.0, "action": "fade", "from": 1.0, "to": 0.0 }
+      ]
+    }
+  ]
+}

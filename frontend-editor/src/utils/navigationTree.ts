@@ -3,7 +3,7 @@ export type NavigationLeaf<Option = undefined> = { __navOption?: Option };
 const leaf = <T = undefined>() =>
   ({ __navOption: undefined as unknown as T } as NavigationLeaf<T>);
 
-export type SessionEditOption = { uid: string; name: string };
+export type SessionEditOption = { uid: string};
 export type SongEditOption = { uid: string };
 export type AssetEditOption = { uid: string };
 export type PlaylistUidOption = { uid: string };

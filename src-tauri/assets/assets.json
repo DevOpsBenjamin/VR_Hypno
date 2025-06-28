@@ -1,0 +1,10 @@
+{
+  "assets": [
+    {
+      "id": "mycube",
+      "name": "Cube",
+      "tags": ["primitive", "cube", "wireframe"],
+      "file": "cube.glb"
+    }
+  ]
+}

@@ -7,6 +7,7 @@ use tauri::{App, AppHandle, Manager};
 use crate::apis::playlist::api::*;
 use crate::apis::session::api::*;
 use crate::apis::song::api::*;
+use crate::apis::asset::api::*;
 
 mod apis;
 mod types {
@@ -80,6 +81,13 @@ fn main() {
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
+            // Assets
+            get_assets,
+            get_asset,
+            update_asset,
+            delete_asset,
+            get_asset_obj,
+            import_asset_obj,
             // Song
             get_songs,
             get_song,

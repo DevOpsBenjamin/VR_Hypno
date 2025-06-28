@@ -11,6 +11,7 @@ import {
 import type { Song } from "@shared/domains/song/types";
 import { formatDuration } from "@shared/utils/format";
 import { confirmDialog } from "@shared/utils/confirmDialog";
+import { PenEmoji, TrashEmoji, MusicEmoji } from '@shared/icons/emoji';
 import { DeleteIcon, EditIcon, MusicIcon } from "@shared/icons/svg";
 
 const songs = ref<Song[]>([]);
@@ -122,10 +123,7 @@ onMounted(loadSongs);
         <div
           class="w-12 h-12 bg-brand-200 rounded-lg flex items-center justify-center shadow-md"
         >
-          <span
-            v-html="MusicIcon"
-            class="text-white w-10 h-10 inline-flex items-center justify-center"
-          ></span>
+          <span class="text-3xl">{{ MusicEmoji }}</span>
         </div>
         <div>
           <h1 class="text-3xl font-bold text-brand-700">
@@ -256,10 +254,7 @@ onMounted(loadSongs);
             <div
               class="w-20 h-20 bg-gradient-to-br from-brand-100 to-brand-300 rounded-full flex items-center justify-center mx-auto mb-4 shadow-xl"
             >
-              <span
-                v-html="MusicIcon"
-                class="text-pink-500 w-16 h-16 mx-auto block"
-              ></span>
+              <span class="text-3xl">{{ MusicEmoji }}</span>
             </div>
             <h3 class="text-xl font-bold text-brand-700 mb-2">
               {{ t("noSongs") }}
@@ -291,20 +286,14 @@ onMounted(loadSongs);
                   class="bg-brand-200 hover:bg-brand-300 text-brand-700 rounded-full p-2 transition shadow"
                   :title="t('edit')"
                 >
-                  <span
-                    v-html="EditIcon"
-                    class="w-10 h-10 inline-flex items-center justify-center"
-                  ></span>
+                  <span class="text-3xl">{{ PenEmoji }}</span>
                 </button>
                 <button
                   @click="deleteSongUI(song.uid)"
                   class="bg-red-200 hover:bg-red-300 text-red-700 rounded-full p-2 transition shadow"
                   :title="t('delete')"
                 >
-                  <span
-                    v-html="DeleteIcon"
-                    class="w-10 h-10 inline-flex items-center justify-center"
-                  ></span>
+                  <span class="text-3xl">{{ TrashEmoji }}</span>
                 </button>
               </div>
             </div>
