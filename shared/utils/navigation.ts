@@ -10,10 +10,10 @@ export function goToEditor() {
   }
 }
 
-export function goToPlayer() {
+export function goToPlayer(uid: string) {
   if (isDev()) {
     window.location.href = "http://localhost:5174";
   } else {
-    window.location.href = "/player/index.html";
+    window.location.href = `/player/index.html?uid=${encodeURIComponent(uid)}`;
   }
 }

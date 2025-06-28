@@ -2,10 +2,9 @@
 import { ref, computed } from 'vue'
 import { navigationTree, nav, NavigationPath } from '../utils/navigationTree'
 import { useNavigationStore } from '../store/navigation'
-import { BrainEmoji, MusicEmoji, DiamondEmoji, FolderEmoji} from '@shared/icons/emoji'
+import { BrainEmoji, MusicEmoji, DiamondEmoji, FolderEmoji, RightEmoji, LeftEmoji} from '@shared/icons/emoji'
 
 const navStore = useNavigationStore()
-const collapsed = ref(false)
 
 const sectionKeys = Object.keys(navigationTree.editor) as Array<keyof typeof navigationTree.editor>
 
@@ -22,28 +21,47 @@ const sections = computed(() =>
 function selectSection(key: keyof typeof navigationTree.editor) {
   navStore.navigateTo(nav.editor[key].list as NavigationPath)
 }
+
+function toggleMenu() {
+  navStore.toggleMenu()
+}
 </script>
 
 <template>
-  <aside :class="['flex-shrink-0 h-full min-h-0 flex flex-col bg-brand-100 shadow-xl transition-all duration-300', collapsed ? 'w-15' : 'w-56']">
-    <button @click="collapsed = !collapsed" class="mt-4 mb-2 ml-auto mr-2 bg-brand-200 hover:bg-brand-300 text-brand-700 rounded-full p-2 shadow transition flex items-center" :aria-label="collapsed ? 'Expand sidebar' : 'Collapse sidebar'">
-      <svg :class="['w-6 h-6 transition-transform']" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-        <path v-if="collapsed" d="M9 5l7 7-7 7" />
-        <path v-else d="M15 19l-7-7 7-7" />
-      </svg>
-    </button>
+  <aside :class="[
+    'flex-shrink-0 h-full min-h-0 flex flex-col bg-brand-100 shadow-xl transition-all duration-300', 
+    navStore.menu_open ? 'w-15' : 'w-56'
+    ]">
+    <div class="flex items-center justify-center mt-4 mb-2">
+      <button
+        v-if="!navStore.menu_open"
+        aria-label="Expand sidebar"
+        class="flex items-center justify-center rounded-full bg-brand-200 hover:bg-brand-300 text-brand-700 shadow transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-400 w-12 h-12"
+        @click="toggleMenu"
+      >
+        <span class="text-4xl">{{ LeftEmoji }}</span>
+      </button>
+      <button
+        v-else
+        aria-label="Collapse sidebar"
+        class="flex items-center justify-center rounded-full bg-brand-200 hover:bg-brand-300 text-brand-700 shadow transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-400 w-12 h-12"
+        @click="toggleMenu"
+      >
+        <span class="text-4xl">{{ RightEmoji }}</span>
+      </button>
+    </div>
     <nav class="flex-1 flex flex-col gap-2 mt-6">
       <button v-for="section in sections" :key="section.key"
         @click="selectSection(section.key)"
         :class="[
           'flex items-center gap-3 px-4 py-3 rounded-full font-bold transition-all',
           navStore.path[1] === section.key ? 'bg-brand-500 text-white shadow-lg scale-105' : 'bg-brand-200 text-brand-700 hover:bg-brand-300',
-          collapsed ? 'justify-center px-2' : 'justify-start'
+          navStore.menu_open ? 'justify-center px-2' : 'justify-start'
         ]"
         :title="section.label"
       >
         <span class="text-3xl">{{ section.icon }}</span>
-        <span v-if="!collapsed" class="text-base">{{ section.label }}</span>
+        <span v-if="!navStore.menu_open" class="text-base">{{ section.label }}</span>
       </button>
     </nav>
   </aside>

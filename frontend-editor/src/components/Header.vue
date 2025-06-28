@@ -3,6 +3,7 @@ import { t } from '@shared/utils/i18n'
 import { useAppStore } from '../store/app'
 import { useNavigationStore } from '../store/navigation'
 import { nav, NavigationPath } from '../utils/navigationTree'
+import { HeartEmoji } from '@shared/icons/emoji'
 const appStore = useAppStore()
 const navStore = useNavigationStore()
 </script>
@@ -12,10 +13,8 @@ const navStore = useNavigationStore()
     <div class="max-w mx-auto px-2">
       <div class="flex justify-between items-center h-20">
         <div class="flex items-center space-x-4">
-          <span class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-brand-500 shadow-lg">
-            <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 21s-6.5-4.35-9-7.5C-1.5 8.5 2.5 3.5 7 6.5c2.1 1.4 3 2.5 5 5 2-2.5 2.9-3.6 5-5C21.5 3.5 25.5 8.5 21 13.5c-2.5 3.15-9 7.5-9 7.5z" />
-            </svg>
+          <span class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-brand-100 shadow-lg">
+            <span class="h-12 items-center text-4xl">{{ HeartEmoji }}</span>
           </span>
           <button 
             @click="navStore.navigateTo(nav.player.playlist.list as NavigationPath)"
@@ -60,4 +59,4 @@ const navStore = useNavigationStore()
       </div>
     </div>
   </header>
-</template> ../utils/i18n@/utils/navigationTree
+</template>

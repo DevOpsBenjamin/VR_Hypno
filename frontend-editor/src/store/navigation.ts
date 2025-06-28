@@ -6,12 +6,16 @@ export const useNavigationStore = defineStore('navigation', {
   state: () => ({
     path: nav.player.playlist.list as NavigationPath,
     options: {} as any,
+    menu_open: false as boolean,
   }),
   actions: {
     navigateTo(path: NavigationPath, options?: any) {
       this.path = [...path] as NavigationPath
       this.options = options ?? {}
-    }
+    },
+    toggleMenu() {
+      this.menu_open = !this.menu_open
+    },
   },
   persist: {
     key: 'vr-hypno-navigation-store',

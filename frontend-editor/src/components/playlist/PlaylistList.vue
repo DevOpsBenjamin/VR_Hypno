@@ -8,6 +8,7 @@ import { formatDuration } from '@shared/utils/format'
 import { getPlaylists, createPlaylist, deletePlaylist } from '@shared/domains/playlist/endpoints'
 import { confirmDialog } from "@shared/utils/confirmDialog";
 import { MusicsEmoji, PenEmoji, TrashEmoji } from '@shared/icons/emoji'
+import { goToPlayer } from '@shared/utils/navigation'
 
 const playlists = ref<Playlist[]>([])
 const loading = ref(true)
@@ -42,8 +43,7 @@ function openEditor(uid: string) {
 }
 
 function openVRPlayer(uid: string) {
-  const url = `http://localhost:8481/vrplayer/${uid}`
-  window.open(url, '_blank')
+  goToPlayer(uid);
 }
 
 async function createPlaylistUI() {
@@ -276,4 +276,4 @@ onMounted(loadPlaylists)
       </div>
     </div>
   </div>
-</template>@/utils/i18n@/utils/navigationTree
+</template>
