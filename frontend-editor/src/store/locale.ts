@@ -10,6 +10,6 @@ export const useLocaleStore = defineStore('locale', {
   },
   // Synchronise le sharedLocale à l'init
   hydrate(state) {
-    sharedLocale.lang = state.lang;
+    sharedLocale.lang.value = state.lang;
   },
 });
