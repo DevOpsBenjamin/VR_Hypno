@@ -1,5 +1,18 @@
-import { computed } from 'vue';
+import { computed, effectScope, ref } from 'vue'
+import { useLocaleStore } from '@shared/utils/localeStore' // adapte le chemin si besoin
 
+export type Locale = keyof typeof messages
+export type MessageKey = keyof typeof messages['en']
+
+// Computed global qui suit la locale du store Pinia
+const currentLocale = computed(() => useLocaleStore().lang  as 'en' | 'fr');
+
+// Fonction t réactive à la langue du store
+export function t(key: MessageKey): string { 
+    return messages[currentLocale.value][key] || key;
+}
+
+// This file is used to manage internationalization (i18n) messages for the application.
 const messages = {
   en: {
     appTitle: 'VR Hypno',
@@ -72,14 +85,3 @@ const messages = {
     confirmDeletePlaylist: 'Êtes-vous sûr de vouloir supprimer cette playlist ?'
   }
 };
-
-export type Locale = keyof typeof messages;
-export type MessageKey = keyof typeof messages['en'];
-
-export function t(key: MessageKey, locale: Locale = 'en'): string {
-  return messages[locale][key] || key;
-}
-
-export function useI18n(localeRef: { value: Locale }) {
-  return (key: MessageKey) => computed(() => messages[localeRef.value][key] || key);
-}

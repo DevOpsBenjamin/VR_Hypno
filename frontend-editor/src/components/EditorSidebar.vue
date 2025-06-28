@@ -1,32 +1,3 @@
-<script setup lang="ts">
-import { ref, computed } from 'vue'
-import { navigationTree, nav, NavigationPath } from '../utils/navigationTree'
-import { useNavigationStore } from '../store/navigation'
-import { BrainEmoji, MusicEmoji, DiamondEmoji, FolderEmoji, RightEmoji, LeftEmoji} from '@shared/icons/emoji'
-
-const navStore = useNavigationStore()
-
-const sectionKeys = Object.keys(navigationTree.editor) as Array<keyof typeof navigationTree.editor>
-
-const sections = computed(() =>
-  sectionKeys.map(key => {
-    let icon = FolderEmoji
-    if (key === 'sessions') icon = BrainEmoji
-    if (key === 'songs') icon = MusicEmoji
-    if (key === 'assets') icon = DiamondEmoji
-    return { key, label: key.charAt(0).toUpperCase() + key.slice(1), icon }
-  })
-)
-
-function selectSection(key: keyof typeof navigationTree.editor) {
-  navStore.navigateTo(nav.editor[key].list as NavigationPath)
-}
-
-function toggleMenu() {
-  navStore.toggleMenu()
-}
-</script>
-
 <template>
   <aside :class="[
     'flex-shrink-0 h-full min-h-0 flex flex-col bg-brand-100 shadow-xl transition-all duration-300', 
@@ -55,7 +26,7 @@ function toggleMenu() {
         @click="selectSection(section.key)"
         :class="[
           'flex items-center gap-3 px-4 py-3 rounded-full font-bold transition-all',
-          navStore.path[1] === section.key ? 'bg-brand-500 text-white shadow-lg scale-105' : 'bg-brand-200 text-brand-700 hover:bg-brand-300',
+          navStore.path[0] === section.key ? 'bg-brand-500 text-white shadow-lg scale-105' : 'bg-brand-200 text-brand-700 hover:bg-brand-300',
           navStore.menu_open ? 'justify-center px-2' : 'justify-start'
         ]"
         :title="section.label"
@@ -67,5 +38,32 @@ function toggleMenu() {
   </aside>
 </template>
 
-<style scoped>
-</style>
+<script setup lang="ts">
+import { ref, computed } from 'vue'
+import { navigationTree, nav, NavigationPath } from '../utils/navigationTree'
+import { useNavigationStore } from '../store/navigation'
+import { BrainEmoji, MusicEmoji, MusicsEmoji, DiamondEmoji, FolderEmoji, RightEmoji, LeftEmoji} from '@shared/icons/emoji'
+
+const navStore = useNavigationStore()
+
+const sectionKeys = Object.keys(navigationTree) as Array<keyof typeof navigationTree>
+
+const sections = computed(() =>
+  sectionKeys.map(key => {
+    let icon = FolderEmoji
+    if (key === 'sessions') icon = BrainEmoji
+    if (key === 'songs') icon = MusicEmoji
+    if (key === 'playlists') icon = MusicsEmoji
+    if (key === 'assets') icon = DiamondEmoji
+    return { key, label: key.charAt(0).toUpperCase() + key.slice(1), icon }
+  })
+)
+
+function selectSection(key: keyof typeof navigationTree) {
+  navStore.navigateTo(nav[key].list as NavigationPath)
+}
+
+function toggleMenu() {
+  navStore.toggleMenu()
+}
+</script>

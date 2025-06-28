@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from "vue";
-import { t } from "@shared/utils/i18n";
+import { t } from '@shared/utils/i18n'
 import { useNavigationStore } from "@/store/navigation";
 import { nav, NavigationPath } from "@/utils/navigationTree";
 import {
@@ -81,7 +81,7 @@ async function loadSongs() {
 }
 
 function openEditor(uid: string) {
-  navStore.navigateTo(nav.editor.songs.edit as NavigationPath, { uid });
+  navStore.navigateTo(nav.songs.edit as NavigationPath, { uid });
 }
 
 async function addSongUI() {
@@ -314,4 +314,3 @@ onMounted(loadSongs);
     </div>
   </div>
 </template>
-@/utils/i18n@/utils/navigationTree

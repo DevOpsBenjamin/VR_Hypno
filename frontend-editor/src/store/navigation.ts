@@ -4,7 +4,7 @@ import { nav } from '../utils/navigationTree'
 
 export const useNavigationStore = defineStore('navigation', {
   state: () => ({
-    path: nav.player.playlist.list as NavigationPath,
+    path: nav.playlists.list as NavigationPath,
     options: {} as any,
     menu_open: false as boolean,
   }),

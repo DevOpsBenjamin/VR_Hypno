@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { t } from '@shared/utils/i18n'
+import { t } from '@shared/utils/i18n';
 import { useNavigationStore } from '@/store/navigation'
 import { nav, NavigationPath, PlaylistUidOption } from '@/utils/navigationTree'
 import type { Playlist } from '@shared/domains/playlist/types'
@@ -39,7 +39,7 @@ async function loadPlaylists() {
 }
 
 function openEditor(uid: string) {
-  navStore.navigateTo(nav.player.playlist.edit as NavigationPath, { uid } as PlaylistUidOption)
+  navStore.navigateTo(nav.playlists.edit as NavigationPath, { uid } as PlaylistUidOption)
 }
 
 function openVRPlayer(uid: string) {
@@ -61,7 +61,7 @@ async function createPlaylistUI() {
       newPlaylistRepeat.value = false
       showCreate.value = false
       await loadPlaylists()
-      navStore.navigateTo(nav.player.playlist.edit as NavigationPath, { uid: result.data?.playlist?.uid })
+      navStore.navigateTo(nav.playlists.edit as NavigationPath, { uid: result.data?.playlist?.uid })
     } else {
       error.value = result?.error || t('unknownError')
     }

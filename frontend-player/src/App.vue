@@ -1,7 +1,7 @@
 <template>
   <div id="player-app">
-    <h1>{{ t('appTitle').value }}</h1>
-    <!-- Playlist & Song Info -->
+    <h1>{{ t('appTitle') }}</h1>
+    <!-- CPU Tracking
     <div v-if="playlist">
       <h2>{{ playlist.info.name }}</h2>
       <div v-if="currentSong">
@@ -15,59 +15,44 @@
     <div v-else>
       <p>{{ t('loadingPlaylist').value }}</p>
     </div>
-    <!-- Actions -->
     <button id="to-editor" @click="goToEditor">{{ t('editor').value }}</button>
     <button v-if="xrSupported" @click="xrActive ? stopXR() : startXR()">
       {{ xrActive ? 'Stop VR' : 'Start VR' }}
     </button>
-    <!-- ThreeJS Canvas for XR/VR -->
     <canvas id="xr-canvas" class="w-full" style="height:400px;display:block;margin:2rem auto 0;"></canvas>
-    <!-- CPU Tracking -->
+    
     <div v-if="cpuUsage !== null">
       <small>CPU usage (approx): {{ cpuUsage }}%</small>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script setup lang="ts">
+import { t } from '@shared/utils/i18n';
+/*
 import { ref } from 'vue';
-import { useI18n, Locale } from '../../shared/utils/i18n';
 import { usePlaylist } from './composables/usePlaylist';
 import { useCPUTracker } from './composables/useCPUTracker';
 import { useXR } from './composables/useXR';
 import { useAudio } from './composables/useAudio';
 import { useThreeJS } from './composables/useThreeJS';
 
-const locale = ref<Locale>('fr'); // or 'en', can be dynamic
-const t = useI18n(locale);
-
 const { playlist, currentSession, currentSong, currentThreeJSConfig, loading, error } = usePlaylist('demo');
 const { cpuUsage } = useCPUTracker();
 const { isSupported: xrSupported, isActive: xrActive, startXR, stopXR } = useXR('xr-canvas');
 const { isPlaying, play, pause, stop } = useAudio(currentSong);
 const { renderer, scene, camera } = useThreeJS('xr-canvas', currentThreeJSConfig);
+*/
 
 function onPlay() {
-  play();
+  //play();
 }
 function onPause() {
-  pause();
+  //pause();
 }
 function onEnded() {
-  stop();
+  //stop();
 }
-
-function goToEditor() {
-  // @ts-ignore
-  const isDev = import.meta.env && import.meta.env.DEV;
-  if (isDev) {
-    window.location.replace('http://localhost:5173');
-  } else {
-    window.location.replace('/editor/index.html');
-  }
-}
-// TODO: Integrate ThreeJS scene with XR session and song config when available.
-// FIXME: XR/VR helpers and error handling to be improved for production.
 </script>
 
 <style scoped>

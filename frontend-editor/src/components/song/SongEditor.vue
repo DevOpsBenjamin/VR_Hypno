@@ -46,7 +46,7 @@ async function save() {
     }
     const result = await updateSong(payload)
     if (result?.success) {
-      navStore.navigateTo(nav.editor.songs.list as NavigationPath)
+      navStore.navigateTo(nav.songs.list as NavigationPath)
     } else {
       saveError.value = result?.error || t('unknownError')
     }
@@ -93,7 +93,7 @@ watch(uid, load)
     <div class="absolute top-4 right-4 text-xs text-brand-300 font-mono opacity-70 select-all z-10">
       UID: {{ uid }}
     </div>
-    <button @click="navStore.navigateTo(nav.editor.songs.list as NavigationPath)" class="absolute top-4 left-4 bg-brand-200 hover:bg-brand-300 text-brand-700 rounded-full px-4 py-2 font-bold shadow transition flex items-center gap-2">
+    <button @click="navStore.navigateTo(nav.songs.list as NavigationPath)" class="absolute top-4 left-4 bg-brand-200 hover:bg-brand-300 text-brand-700 rounded-full px-4 py-2 font-bold shadow transition flex items-center gap-2">
       <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
       {{ t('back') }}
     </button>
@@ -134,7 +134,7 @@ watch(uid, load)
       <div v-if="saveError" class="text-center text-red-500 mb-2">{{ saveError }}</div>
       <div class="flex gap-2 mt-4">
         <button @click="save" :disabled="saving" class="btn rounded-full px-6 py-2 shadow bg-brand-500 text-white hover:bg-brand-600 transition font-bold tracking-wide uppercase">{{ t('save') }}</button>
-        <button @click="navStore.navigateTo(nav.player.playlist.list as NavigationPath)" class="btn rounded-full px-6 py-2 shadow bg-brand-200 text-brand-700 hover:bg-brand-300 transition font-bold tracking-wide uppercase">{{ t('cancel') }}</button>
+        <button @click="navStore.navigateTo(nav.songs.list as NavigationPath)" class="btn rounded-full px-6 py-2 shadow bg-brand-200 text-brand-700 hover:bg-brand-300 transition font-bold tracking-wide uppercase">{{ t('cancel') }}</button>
       </div>
     </div>
   </div>

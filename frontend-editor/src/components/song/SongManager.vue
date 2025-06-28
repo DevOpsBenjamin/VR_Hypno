@@ -8,7 +8,7 @@ const nav = useNavigationStore()
 
 <template>
   <div class="p-4 overflow-y-auto h-full">
-    <SongList v-if="nav.path[2] === 'list'" />
-    <SongEditor v-else-if="nav.path[2] === 'edit'"/>
+    <SongList v-if="nav.path[1] === 'list'" />
+    <SongEditor v-else-if="nav.path[1] === 'edit'"/>
   </div>
 </template>

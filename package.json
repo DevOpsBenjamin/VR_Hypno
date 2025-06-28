@@ -15,7 +15,9 @@
     "tauri": "tauri"
   },
   "dependencies": {
-    "@tauri-apps/api": "^1.5.1"
+    "@tauri-apps/api": "^1.5.1",
+    "pinia": "^3.0.3",
+    "pinia-plugin-persistedstate": "^4.3.0"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^1.5.8",
