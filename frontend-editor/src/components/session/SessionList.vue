@@ -3,7 +3,7 @@
     <div class="flex items-center justify-between mb-6">
       <div class="flex items-center gap-3">
         <div class="w-12 h-12 bg-brand-200 rounded-lg flex items-center justify-center shadow-md">
-          <span class="text-white w-10 h-10 inline-flex items-center justify-center">🎵</span>
+          <span class="h-10 items-center text-4xl">{{ BrainEmoji }}</span>
         </div>
         <div>
           <h1 class="text-3xl font-bold text-brand-700">
@@ -58,10 +58,10 @@
               </div>
               <div class="flex gap-2">
                 <button @click="() => {/* TODO: open editor for session */}" class="bg-brand-200 hover:bg-brand-300 text-brand-700 rounded-full p-2 transition shadow" :title="t('edit')">
-                  ✏️
+                  <span class="text-3xl">{{ PenEmoji }}</span>
                 </button>
                 <button @click="() => deleteSessionUI(session.uid)" class="bg-red-200 hover:bg-red-300 text-red-700 rounded-full p-2 transition shadow" :title="t('delete')">
-                  🗑️
+                  <span class="text-3xl">{{ TrashEmoji }}</span>
                 </button>
               </div>
             </div>
@@ -101,6 +101,7 @@ import type { Session } from '@shared/domains/session/types';
 import type { Song } from '@shared/domains/song/types';
 import { confirmDialog } from "@shared/utils/confirmDialog";
 import { MusicIcon } from '@shared/icons/svg'
+import { PenEmoji, TrashEmoji, BrainEmoji } from '@shared/icons/emoji';
 
 const sessions = ref<Session[]>([]);
 const loading = ref(true);

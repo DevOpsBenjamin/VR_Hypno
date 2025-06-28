@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue'
 import { navigationTree, nav, NavigationPath } from '../utils/navigationTree'
 import { useNavigationStore } from '../store/navigation'
+import { BrainEmoji, MusicEmoji, DiamondEmoji, FolderEmoji} from '@shared/icons/emoji'
 
 const navStore = useNavigationStore()
 const collapsed = ref(false)
@@ -10,10 +11,10 @@ const sectionKeys = Object.keys(navigationTree.editor) as Array<keyof typeof nav
 
 const sections = computed(() =>
   sectionKeys.map(key => {
-    let icon = '📁'
-    if (key === 'sessions') icon = '🧠'
-    if (key === 'songs') icon = '🎵'
-    if (key === 'assets') icon = '💎'
+    let icon = FolderEmoji
+    if (key === 'sessions') icon = BrainEmoji
+    if (key === 'songs') icon = MusicEmoji
+    if (key === 'assets') icon = DiamondEmoji
     return { key, label: key.charAt(0).toUpperCase() + key.slice(1), icon }
   })
 )
@@ -41,7 +42,7 @@ function selectSection(key: keyof typeof navigationTree.editor) {
         ]"
         :title="section.label"
       >
-        <span class="text-2xl">{{ section.icon }}</span>
+        <span class="text-3xl">{{ section.icon }}</span>
         <span v-if="!collapsed" class="text-base">{{ section.label }}</span>
       </button>
     </nav>

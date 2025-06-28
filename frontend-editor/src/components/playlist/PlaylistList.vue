@@ -6,8 +6,8 @@ import { nav, NavigationPath, PlaylistUidOption } from '@/utils/navigationTree'
 import type { Playlist } from '@shared/domains/playlist/types'
 import { formatDuration } from '@shared/utils/format'
 import { getPlaylists, createPlaylist, deletePlaylist } from '@shared/domains/playlist/endpoints'
-import { DeleteIcon, EditIcon, MusicIcon } from '@shared/icons/svg'
 import { confirmDialog } from "@shared/utils/confirmDialog";
+import { MusicsEmoji, PenEmoji, TrashEmoji } from '@shared/icons/emoji'
 
 const playlists = ref<Playlist[]>([])
 const loading = ref(true)
@@ -103,7 +103,7 @@ onMounted(loadPlaylists)
     <div class="flex items-center justify-between mb-6">
       <div class="flex items-center gap-3">
         <div class="w-12 h-12 bg-brand-200 rounded-lg flex items-center justify-center shadow-md">
-          <span v-html="MusicIcon" class="text-white w-10 h-10 inline-flex items-center justify-center"></span>
+          <span class="h-10 items-center text-4xl">{{ MusicsEmoji }}</span>
         </div>
         <div>
           <h1 class="text-3xl font-bold text-brand-700">
@@ -199,7 +199,7 @@ onMounted(loadPlaylists)
           <!-- État vide -->
           <div v-if="playlists.length === 0 && !showCreate" class="text-center py-10">
             <div class="w-20 h-20 bg-gradient-to-br from-brand-100 to-brand-300 rounded-full flex items-center justify-center mx-auto mb-4 shadow-xl">
-              <span v-html="MusicIcon" class="text-pink-500 w-16 h-16 mx-auto block"></span>
+              <span class="h-16 items-center text-6xl">{{ MusicsEmoji }}</span>
             </div>
             <h3 class="text-xl font-bold text-brand-700 mb-2">{{ t('noPlaylists') }}</h3>
             <p class="text-brand-400 mb-6">Créez votre première playlist pour commencer</p>
@@ -232,17 +232,17 @@ onMounted(loadPlaylists)
                   <div class="flex items-center ml-auto gap-2">
                     <button 
                       @click="openEditor(playlist.uid)" 
-                      class="bg-white/20 hover:bg-white/40 rounded-xl p-2 transition-all duration-200 border-2 border-brand-200"
+                      class="bg-white/20 hover:bg-white/40 rounded-xl p-1 transition-all duration-200 border-2 border-brand-200"
                       title="Éditer"
                     >
-                      <span v-html="EditIcon" class="w-10 h-10 inline-flex items-center justify-center"></span>
+                      <span class="h-10 items-center text-4xl">{{ PenEmoji }}</span>
                     </button>
                     <button
                       @click="deletePlaylistUI(playlist.uid)"
-                      class="bg-red-200 hover:bg-red-300 text-red-700 rounded-xl p-2 transition-all duration-200 border-2 border-red-400"
+                      class="bg-red-200 hover:bg-red-300 text-red-700 rounded-xl p-1 transition-all duration-200 border-2 border-red-400"
                       :title="t('delete')"
                     >
-                      <span v-html="DeleteIcon" class="w-10 h-10 inline-flex items-center justify-center"></span>
+                      <span class="h-10 items-center text-4xl">{{ TrashEmoji }}</span>
                     </button>
                   </div>
                 </div>

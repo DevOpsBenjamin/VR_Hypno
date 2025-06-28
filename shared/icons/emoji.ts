@@ -1,0 +1,8 @@
+export const BrainEmoji = '🧠'
+export const MusicEmoji = '🎵'
+export const MusicsEmoji = '🎶'
+export const DiamondEmoji = '💎'
+export const FolderEmoji = '📁'
+export const PenEmoji = '📝'
+export const TrashEmoji = '🗑️'
+export const HeartEmoji = '💙'
