@@ -2,7 +2,7 @@
 import { useNavigationStore } from '../store/navigation'
 import SessionManager from '@/components/session/SessionManager.vue'
 import SongManager from '@/components/song/SongManager.vue'
-import AssetManager from '@/components/assets/AssetManager.vue'
+import AssetManager from '@/components/asset/AssetManager.vue'
 import PlaylistManager from '@/components/playlist/PlaylistManager.vue'
 
 const nav = useNavigationStore()

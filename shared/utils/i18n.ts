@@ -1,10 +1,11 @@
 import { sharedLocale } from '@shared/utils/localeStore'; // À adapter selon l'app (editor/player)
 
 export type Locale = keyof typeof messages;
-export type MessageKey = keyof typeof messages['en'];
+export type MessageKey = keyof typeof messages['en'] | keyof typeof messages['fr'];
 
 export function t(key: MessageKey): string {
-  return messages[sharedLocale.lang.value][key] || key;
+  const lang = sharedLocale.lang.value as keyof typeof messages;
+  return messages[lang][key as keyof typeof messages['en']] || key;
 }
 
 // Messages i18n partagés
@@ -44,7 +45,15 @@ export const messages = {
     retry: 'Retry',
     confirmDeletePlaylist: 'Are you sure you want to delete this playlist?',
     addSession: 'Add Session',
-    selectSession: 'Select Session'
+    selectSession: 'Select Session',
+    add: 'Add',
+    remove: 'Remove',
+    addAsset: 'Add Asset',
+    assets: 'Assets',
+    noAssets: 'No assets',
+    noAssetsDesc: 'Add your first asset to get started',
+    confirmDeleteAsset: 'Are you sure you want to delete this asset?',
+    assetName: 'Asset name'
   },
   fr: {
     appTitle: 'VR Hypno',
@@ -81,6 +90,14 @@ export const messages = {
     retry: 'Réessayer',
     confirmDeletePlaylist: 'Êtes-vous sûr de vouloir supprimer cette playlist ?',
     addSession: 'Ajouter une session',
-    selectSession: 'Sélectionner une session'
+    selectSession: 'Sélectionner une session',
+    add: 'Ajouter',
+    remove: 'Supprimer',
+    addAsset: 'Ajouter un asset',
+    assets: 'Assets',
+    noAssets: 'Aucun asset',
+    noAssetsDesc: 'Ajoutez votre premier asset pour commencer',
+    confirmDeleteAsset: 'Êtes-vous sûr de vouloir supprimer cet asset ?',
+    assetName: 'Nom de l\'asset'
   }
 };
