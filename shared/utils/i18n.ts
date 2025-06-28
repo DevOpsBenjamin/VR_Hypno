@@ -53,7 +53,15 @@ export const messages = {
     noAssets: 'No assets',
     noAssetsDesc: 'Add your first asset to get started',
     confirmDeleteAsset: 'Are you sure you want to delete this asset?',
-    assetName: 'Asset name'
+    assetName: 'Asset name',
+    // Session Editor
+    sessionHeaderTitle: 'Session Editor',
+    sessionHeaderSongInfo: 'Song info',
+    sessionTimelineTime: 'Timeline',
+    sessionTracksAddTrack: 'Add Track',
+    sessionTracksAddObject: 'Add Object',
+    sessionObjectEditTitle: 'Edit Object',
+    commonClose: 'Close',
   },
   fr: {
     appTitle: 'VR Hypno',
@@ -98,6 +106,14 @@ export const messages = {
     noAssets: 'Aucun asset',
     noAssetsDesc: 'Ajoutez votre premier asset pour commencer',
     confirmDeleteAsset: 'Êtes-vous sûr de vouloir supprimer cet asset ?',
-    assetName: 'Nom de l\'asset'
+    assetName: 'Nom de l\'asset',
+    // Session Editor
+    sessionHeaderTitle: 'Éditeur de session',
+    sessionHeaderSongInfo: 'Infos chanson',
+    sessionTimelineTime: 'Timeline',
+    sessionTracksAddTrack: 'Ajouter une piste',
+    sessionTracksAddObject: 'Ajouter un objet',
+    sessionObjectEditTitle: 'Éditer l\'objet',
+    commonClose: 'Fermer',
   }
 };
