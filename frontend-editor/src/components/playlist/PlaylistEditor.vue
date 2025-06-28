@@ -136,17 +136,22 @@ function removeSession(index: number): void {
 
 // Drag and drop logic
 const dragIndex = ref<number | null>(null)
-function onDragStart(idx: number): void {
+function onDragStart(event: DragEvent, idx: number): void {
   dragIndex.value = idx
+  event.dataTransfer?.setData('text/plain', String(idx))
+  console.log('dragstart', idx)
 }
 function onDrop(idx: number): void {
+  console.log('drop', idx, 'from', dragIndex.value)
   if (!info.value || dragIndex.value === null || dragIndex.value === idx) return
   const arr = info.value.sessions
   const [moved] = arr.splice(dragIndex.value, 1)
   arr.splice(idx, 0, moved)
   dragIndex.value = null
+  console.log('sessions after drop', arr)
 }
 function onDragEnd(): void {
+  console.log('dragend')
   dragIndex.value = null
 }
 
@@ -185,7 +190,7 @@ watch(uid, () => {
         <div class="font-bold text-brand-700 mb-2">{{ t('sessions') }}</div>
         <ul class="space-y-2">
           <li v-for="(sessionUid, idx) in info.sessions" :key="idx" draggable="true"
-              @dragstart="onDragStart(idx)" @dragover.prevent @drop="onDrop(idx)" @dragend="onDragEnd"
+              @dragstart="onDragStart($event, idx)" @dragover.prevent @drop="onDrop(idx)" @dragend="onDragEnd"
               class="flex items-center gap-3 bg-brand-100 rounded-lg px-3 py-2 shadow-sm cursor-move">
             <span class="font-bold text-brand-400 w-6 text-right">{{ (idx+1).toString().padStart(2, '0') }}</span>
             <span class="flex-1 font-semibold text-brand-700 truncate">{{ getSessionName(sessionUid) }}</span>

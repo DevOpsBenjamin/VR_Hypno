@@ -40,6 +40,7 @@ const navStore = useNavigationStore();
 const editor = reactive(inject<EditorManager>('editor')!)
 
 onMounted(async () => {
+  editor.reset();
   await editor.loadSession(navStore.options.uid as string);
 });
 </script>

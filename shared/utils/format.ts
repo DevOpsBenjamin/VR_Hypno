@@ -1,5 +1,6 @@
 export function formatDuration(seconds?: number | null): string {
-  if (seconds == null || seconds <= 0) return ''
+  if (seconds == null || seconds < 0) return ''
+  if (seconds === 0) return '0s'
   const h = Math.floor(seconds / 3600)
   const m = Math.floor((seconds % 3600) / 60)
   const s = Math.floor(seconds % 60)
