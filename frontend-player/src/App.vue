@@ -1,80 +1,42 @@
 <template>
-  <div id="player-app">
-    <h1>{{ t('appTitle') }}</h1>
-    <!-- CPU Tracking
-    <div v-if="playlist">
-      <h2>{{ playlist.info.name }}</h2>
-      <div v-if="currentSong">
-        <h3>{{ currentSong.info.name }}</h3>
-        <audio ref="audio" :src="currentSong.info.audioUrl" controls @play="onPlay" @pause="onPause" @ended="onEnded"></audio>
+  <div id="player-app" class="flex flex-col h-screen w-screen bg-brand-50">
+    <div class="flex flex-1 overflow-hidden">
+      <!-- Left Sidebar -->
+      <div class="h-full" style="flex-basis: 20%; flex-shrink: 0; flex-grow: 0;">
+        <PlayerMenu class="w-full h-full" />
       </div>
-      <div v-else>
-        <p>{{ t('noSongs').value }}</p>
+      <!-- Main Content -->
+      <div class="h-full" style="flex-basis: 80%; flex-grow: 1; flex-shrink: 1;">
+        <PlayerContent class="w-full h-full" />
       </div>
     </div>
-    <div v-else>
-      <p>{{ t('loadingPlaylist').value }}</p>
+    <!-- Bottom Player Bar -->
+    <div style="height: 10vh; min-height: 60px; max-height: 20vh;" class="w-full">
+      <PlayerBar class="w-full h-full" />
     </div>
-    <button id="to-editor" @click="goToEditor">{{ t('editor').value }}</button>
-    <button v-if="xrSupported" @click="xrActive ? stopXR() : startXR()">
-      {{ xrActive ? 'Stop VR' : 'Start VR' }}
-    </button>
-    <canvas id="xr-canvas" class="w-full" style="height:400px;display:block;margin:2rem auto 0;"></canvas>
-    
-    <div v-if="cpuUsage !== null">
-      <small>CPU usage (approx): {{ cpuUsage }}%</small>
-    </div> -->
   </div>
 </template>
 
 <script setup lang="ts">
-import { t } from '@shared/utils/i18n';
-/*
-import { ref } from 'vue';
-import { usePlaylist } from './composables/usePlaylist';
-import { useCPUTracker } from './composables/useCPUTracker';
-import { useXR } from './composables/useXR';
-import { useAudio } from './composables/useAudio';
-import { useThreeJS } from './composables/useThreeJS';
+import PlayerMenu from '@/components/PlayerMenu.vue';
+import PlayerContent from '@/components/PlayerContent.vue';
+import PlayerBar from '@/components/PlayerBar.vue';
+import { goToEditor } from '@shared/utils/navigation';
+import { usePlayerManager } from '@/composables/usePlayerManager';
 
-const { playlist, currentSession, currentSong, currentThreeJSConfig, loading, error } = usePlaylist('demo');
-const { cpuUsage } = useCPUTracker();
-const { isSupported: xrSupported, isActive: xrActive, startXR, stopXR } = useXR('xr-canvas');
-const { isPlaying, play, pause, stop } = useAudio(currentSong);
-const { renderer, scene, camera } = useThreeJS('xr-canvas', currentThreeJSConfig);
-*/
-
-function onPlay() {
-  //play();
+const params = new URLSearchParams(window.location.search);
+const uid = params.get('uid');
+if (!uid) {
+  alert('UID parameter is required');
+  goToEditor(); // Redirect to player page if UID is missing
 }
-function onPause() {
-  //pause();
-}
-function onEnded() {
-  //stop();
-}
+const playerManager = usePlayerManager();
+// Initialize player manager
+playerManager.initialize(uid);
 </script>
 
 <style scoped>
 #player-app {
-  max-width: 600px;
-  margin: 2rem auto;
-  padding: 2rem;
-  background: #222;
-  color: #fff;
-  border-radius: 1rem;
-  box-shadow: 0 0 20px #0008;
-}
-button {
-  margin-top: 1rem;
-  padding: 0.5rem 1rem;
-  background: #4caf50;
-  color: #fff;
-  border: none;
-  border-radius: 0.5rem;
-  cursor: pointer;
-}
-button:hover {
-  background: #388e3c;
+  min-height: 100vh;
 }
 </style>

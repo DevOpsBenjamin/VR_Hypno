@@ -1,12 +1,10 @@
-import { computed } from 'vue';
 import { sharedLocale } from '@shared/utils/localeStore'; // À adapter selon l'app (editor/player)
 
 export type Locale = keyof typeof messages;
 export type MessageKey = keyof typeof messages['en'];
-const currentLocale = computed(() => sharedLocale.lang.value);
 
 export function t(key: MessageKey): string {
-  return messages[currentLocale.value][key] || key;
+  return messages[sharedLocale.lang.value][key] || key;
 }
 
 // Messages i18n partagés
@@ -44,7 +42,9 @@ export const messages = {
     confirmDeleteSong: 'Are you sure you want to delete this song?',
     confirmDeleteSession: 'Are you sure you want to delete this session?',
     retry: 'Retry',
-    confirmDeletePlaylist: 'Are you sure you want to delete this playlist?'
+    confirmDeletePlaylist: 'Are you sure you want to delete this playlist?',
+    addSession: 'Add Session',
+    selectSession: 'Select Session'
   },
   fr: {
     appTitle: 'VR Hypno',
@@ -79,6 +79,8 @@ export const messages = {
     confirmDeleteSong: 'Êtes-vous sûr de vouloir supprimer cette chanson ?',
     confirmDeleteSession: 'Êtes-vous sûr de vouloir supprimer cette session ?',
     retry: 'Réessayer',
-    confirmDeletePlaylist: 'Êtes-vous sûr de vouloir supprimer cette playlist ?'
+    confirmDeletePlaylist: 'Êtes-vous sûr de vouloir supprimer cette playlist ?',
+    addSession: 'Ajouter une session',
+    selectSession: 'Sélectionner une session'
   }
 };
