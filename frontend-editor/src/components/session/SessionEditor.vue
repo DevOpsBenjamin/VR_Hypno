@@ -16,7 +16,12 @@
       </div>
       <!-- Menu (35% width) -->
       <div class="flex-[0_0_35%] flex flex-col bg-white rounded-xl shadow p-4 min-h-0">
-        <SessionMenu />
+        <SessionMenu
+          :session="session"
+          :loading="loading"
+          :saving="saving"
+          @save="onSave"
+        />
       </div>
     </div>
 
@@ -26,7 +31,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { t } from '@shared/utils/i18n';
 import TimelineHeader from './editor/TimelineHeader.vue';
 import TracksList from './editor/TracksList.vue';
@@ -34,11 +39,18 @@ import PreviewCanvas from './editor/PreviewCanvas.vue';
 import SessionMenu from './editor/SessionMenu.vue';
 import ObjectEditModal from './editor/ObjectEditModal.vue';
 
-// TODO: Replace with real session state management
-const sessionName = ref('');
+import { useNavigationStore } from '@/store/navigation';
+import { useSessionEditor } from '@/composables/useSessionEditor';
+
+const navStore = useNavigationStore()
+const uid = computed(() => navStore.options.uid as string)
+
+const {
+  loading, error, session, saving, load, save
+} = useSessionEditor(uid.value);
 
 function onSave() {
-  // TODO: Implement save logic for session name and editor state
+  save();
 }
 </script>
 

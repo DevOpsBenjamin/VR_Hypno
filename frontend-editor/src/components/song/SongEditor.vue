@@ -138,4 +138,4 @@ watch(uid, load)
       </div>
     </div>
   </div>
-</template> @/utils/i18n@/utils/navigationTree
+</template>
