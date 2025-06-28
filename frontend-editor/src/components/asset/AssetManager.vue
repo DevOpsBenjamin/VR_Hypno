@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useNavigationStore } from '@/store/navigation'
-import AssetList from './AssetList.vue';
-import AssetEditor from './AssetEditor.vue';
+import AssetList from '@/components/asset/AssetList.vue'
+import AssetEditor from '@/components/asset/AssetEditor.vue'
 
 const nav = useNavigationStore()
 </script>
