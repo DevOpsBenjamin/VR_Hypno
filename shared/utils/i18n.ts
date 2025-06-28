@@ -62,6 +62,7 @@ export const messages = {
     sessionTracksAddObject: 'Add Object',
     sessionObjectEditTitle: 'Edit Object',
     commonClose: 'Close',
+    description: 'Description',
   },
   fr: {
     appTitle: 'VR Hypno',
@@ -115,5 +116,6 @@ export const messages = {
     sessionTracksAddObject: 'Ajouter un objet',
     sessionObjectEditTitle: 'Éditer l\'objet',
     commonClose: 'Fermer',
+    description: 'Description',
   }
 };

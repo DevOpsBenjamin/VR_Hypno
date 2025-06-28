@@ -7,7 +7,7 @@ const nav = useNavigationStore()
 </script>
 
 <template>
-  <div class="p-4 overflow-y-auto h-full">
+  <div class="p-2 overflow-y-auto h-full">
     <SessionList v-if="nav.path[1] === 'list'" />
     <SessionEditor v-else-if="nav.path[1] === 'edit'"/>
   </div>

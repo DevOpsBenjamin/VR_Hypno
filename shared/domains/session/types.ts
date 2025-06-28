@@ -3,8 +3,8 @@ import type { ThreeJSConfig } from '../../types/threejs';
 export interface SessionInfo {
     name: string;
     song_uid: string;
-    description?: string;  
     tracks: Track[];
+    description?: string;  // Optional description for the session
     threejsConfig?: ThreeJSConfig;
 }
 
@@ -28,8 +28,8 @@ export interface TrackTimelineEvent {
   end: number;
 } 
 
-// Pour l'usage UI/backend :
+// For UI/backend usage:
 export interface Session {
   uid: string;
   info: SessionInfo;
-} 
+}

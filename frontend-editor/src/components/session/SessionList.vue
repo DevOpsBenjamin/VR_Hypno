@@ -159,6 +159,7 @@ async function addSession() {
       info: {
         name: newSessionName.value.trim(),
         song_uid: newSessionSongUid.value,
+        tracks: [],
       },
     });
     if (result?.success) {
