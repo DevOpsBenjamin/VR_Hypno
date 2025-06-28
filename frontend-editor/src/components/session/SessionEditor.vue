@@ -1,17 +1,17 @@
 <template>
-  <div class="flex flex-col h-full gap-4">
-    <!-- Timeline & Tracks (Top, full width, 1/4 height) -->
-    <div class="flex flex-col bg-white rounded-xl shadow p-4 overflow-hidden" style="flex: 0 0 25%; min-height: 120px; max-height: 25%;">
+  <div class="flex flex-col h-full gap-1">
+    <!-- Timeline & Tracks (Top, full width, 1/2 height) -->
+    <div class="flex flex-col bg-white rounded-xl shadow p-1 overflow-hidden" style="flex: 0 0 35%; min-height: 120px; max-height: 35%;">
       <TimelineHeader />
       <div class="flex-1 overflow-y-auto">
         <TracksList />
       </div>
     </div>
 
-    <!-- Main Content: Preview + Properties (Bottom, 3/4 height) -->
-    <div class="flex flex-1 gap-4 min-h-0">
+    <!-- Main Content: Preview + Properties (Bottom, 1/2 height) -->
+    <div class="flex flex-1 gap-1 min-h-0">
       <!-- Preview Canvas (takes most of the space) -->
-      <div class="flex-1 flex flex-col bg-white rounded-xl shadow p-4 min-h-0">
+      <div class="flex-1 flex flex-col bg-white rounded-xl shadow p-1 min-h-0">
         <PreviewCanvas />
       </div>
       <!-- Properties Panel (optional, right side) -->
