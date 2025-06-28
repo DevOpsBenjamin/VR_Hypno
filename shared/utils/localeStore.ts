@@ -1,16 +1,19 @@
-import { defineStore } from 'pinia'
+// Objet partagé pour la langue courante
+import { ref } from 'vue';
 
-export const useLocaleStore = defineStore('locale', {
-  state: () => ({
-    lang: 'en' as 'en' | 'fr'
-  }),
-  actions: {
-    setLocale(lang: 'en' | 'fr') {
-      this.lang = lang
-    },
+export const sharedLocale = {
+  lang: ref<'en' | 'fr'>('en')
+};
+
+export type Locale = 'en' | 'fr';
+
+export const localeStoreState = () => ({
+  lang: 'en' as Locale,
+});
+
+export const localeStoreActions = {
+  setLocale(this: { lang: Locale }, lang: Locale) {
+    this.lang = lang;
+    sharedLocale.lang.value = lang; 
   },
-  persist: {
-    key: 'vr-hypno-local-store',
-    storage: window.localStorage,
-  },
-})
+};

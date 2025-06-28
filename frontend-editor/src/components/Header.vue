@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import { useLocaleStore } from '@shared/utils/localeStore'
+import { useLocaleStore } from '@/store/locale'
 import { HeartEmoji } from '@shared/icons/emoji'
 const localeStore = useLocaleStore()
 
