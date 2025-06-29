@@ -17,11 +17,9 @@
 
     <!-- Render actual tracks -->
     <TrackRow 
-      v-for="(track, index) in tracks" 
+      v-for="track in tracks" 
       :key="track.id" 
-      :track="track"
-      :track-index="index + 1" 
-      @remove-track="removeTrack(index)"
+      :track-id="track.id"
     />
 
     <!-- Empty state when no tracks -->
@@ -36,14 +34,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, inject } from 'vue';
+import { computed, inject, reactive } from 'vue';
 import { EditorManager } from '@/app/EditorManager';
 import type { Track } from '@shared/domains/session/types';
 
 import TrackRow from './TrackRow.vue';
 import { t } from '@shared/utils/i18n';
 
-const editor = inject<EditorManager>('editor')!;
+const editor = reactive(inject<EditorManager>('editor')!);
 
 // Reactive reference to tracks
 const tracks = computed(() => editor.currentSession?.info.tracks || []);
@@ -57,11 +55,5 @@ function addTrack(): void {
   };
   
   editor.currentSession.info.tracks.push(newTrack);
-}
-
-function removeTrack(index: number): void {
-  if (!editor.currentSession) return;
-  
-  editor.currentSession.info.tracks.splice(index, 1);
 }
 </script>
