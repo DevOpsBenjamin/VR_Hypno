@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, onMounted, computed } from 'vue'
+import { ref, watch, onMounted, onUnmounted, computed } from 'vue'
 import { t } from '@shared/utils/i18n';
 import { useNavigationStore } from '@/store/navigation'
 import type { PlaylistInfo } from '@shared/domains/playlist/types'
@@ -134,31 +134,89 @@ function removeSession(index: number): void {
   info.value.sessions.splice(index, 1)
 }
 
-// Drag and drop logic
-const dragIndex = ref<number | null>(null)
-function onDragStart(event: DragEvent, idx: number): void {
-  dragIndex.value = idx
-  event.dataTransfer?.setData('text/plain', String(idx))
-  console.log('dragstart', idx)
+// Simple drag and drop state
+const dragState = ref<{
+  isDragging: boolean
+  dragIndex: number | null
+  dragOverIndex: number | null
+  startY: number
+}>({
+  isDragging: false,
+  dragIndex: null,
+  dragOverIndex: null,
+  startY: 0,
+})
+
+function startDrag(event: MouseEvent, index: number): void {
+  dragState.value = {
+    isDragging: true,
+    dragIndex: index,
+    dragOverIndex: null,
+    startY: event.clientY,
+  }
+  
+  // Add global mouse event listeners
+  document.addEventListener('mousemove', onDragMove)
+  document.addEventListener('mouseup', onDragEnd)
+  
+  // Prevent text selection
+  event.preventDefault()
 }
-function onDrop(idx: number): void {
-  console.log('drop', idx, 'from', dragIndex.value)
-  if (!info.value || dragIndex.value === null || dragIndex.value === idx) return
-  const arr = info.value.sessions
-  const [moved] = arr.splice(dragIndex.value, 1)
-  arr.splice(idx, 0, moved)
-  dragIndex.value = null
-  console.log('sessions after drop', arr)
+
+function onDragMove(event: MouseEvent): void {
+  if (!dragState.value.isDragging || dragState.value.dragIndex === null) return
+  
+  // Find which session we're hovering over
+  const elements = document.querySelectorAll('[data-session-index]')
+  let hoverIndex: number | null = null
+  
+  for (const el of elements) {
+    const rect = el.getBoundingClientRect()
+    if (event.clientY >= rect.top && event.clientY <= rect.bottom) {
+      hoverIndex = parseInt((el as HTMLElement).dataset.sessionIndex || '-1')
+      break
+    }
+  }
+  
+  dragState.value.dragOverIndex = hoverIndex
 }
+
 function onDragEnd(): void {
-  console.log('dragend')
-  dragIndex.value = null
+  if (!dragState.value.isDragging) return
+  
+  const { dragIndex, dragOverIndex } = dragState.value
+  
+  // Perform the move if we have valid indices
+  if (dragIndex !== null && dragOverIndex !== null && dragIndex !== dragOverIndex && info.value) {
+    const sessions = info.value.sessions
+    const [movedSession] = sessions.splice(dragIndex, 1)
+    sessions.splice(dragOverIndex, 0, movedSession)
+  }
+  
+  // Reset drag state
+  dragState.value = {
+    isDragging: false,
+    dragIndex: null,
+    dragOverIndex: null,
+    startY: 0,
+  }
+  
+  // Remove global listeners
+  document.removeEventListener('mousemove', onDragMove)
+  document.removeEventListener('mouseup', onDragEnd)
 }
 
 onMounted(() => {
   load()
   loadSessionsAndSongs()
 })
+
+onUnmounted(() => {
+  // Clean up event listeners if component unmounts during drag
+  document.removeEventListener('mousemove', onDragMove)
+  document.removeEventListener('mouseup', onDragEnd)
+})
+
 watch(uid, () => {
   load()
   loadSessionsAndSongs()
@@ -189,12 +247,29 @@ watch(uid, () => {
       <div class="mb-4">
         <div class="font-bold text-brand-700 mb-2">{{ t('sessions') }}</div>
         <ul class="space-y-2">
-          <li v-for="(sessionUid, idx) in info.sessions" :key="idx" draggable="true"
-              @dragstart="onDragStart($event, idx)" @dragover.prevent @drop="onDrop(idx)" @dragend="onDragEnd"
-              class="flex items-center gap-3 bg-brand-100 rounded-lg px-3 py-2 shadow-sm cursor-move">
+          <li v-for="(sessionUid, idx) in info.sessions" :key="idx"
+              :data-session-index="idx"
+              :class="[
+                'flex items-center gap-3 bg-brand-100 rounded-lg px-3 py-2 shadow-sm transition-all duration-200',
+                dragState.isDragging && dragState.dragIndex === idx ? 'opacity-50 scale-95' : '',
+                dragState.dragOverIndex === idx ? 'ring-2 ring-brand-400 bg-brand-200' : '',
+                'hover:bg-brand-150'
+              ]">
+            <!-- Drag handle -->
+            <div 
+              @mousedown="startDrag($event, idx)"
+              class="cursor-move text-brand-400 hover:text-brand-600 p-1 -ml-1 rounded"
+              title="Drag to reorder"
+            >
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M9 3h2v2H9V3zm0 4h2v2H9V7zm0 4h2v2H9v-2zm0 4h2v2H9v-2zm0 4h2v2H9v-2zm4-16h2v2h-2V3zm0 4h2v2h-2V7zm0 4h2v2h-2v-2zm0 4h2v2h-2v-2zm0 4h2v2h-2v-2z"/>
+              </svg>
+            </div>
+            
             <span class="font-bold text-brand-400 w-6 text-right">{{ (idx+1).toString().padStart(2, '0') }}</span>
             <span class="flex-1 font-semibold text-brand-700 truncate">{{ getSessionName(sessionUid) }}</span>
             <span class="text-xs text-brand-400 w-12 text-right">{{ formatDuration(getSessionDuration(sessionUid)) }}</span>
+            
             <button @click="removeSession(idx)" class="text-red-500 hover:text-red-700 ml-2">{{ t('remove') }}</button>
           </li>
         </ul>

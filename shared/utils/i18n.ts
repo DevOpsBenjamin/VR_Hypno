@@ -63,6 +63,12 @@ export const messages = {
     sessionObjectEditTitle: 'Edit Object',
     commonClose: 'Close',
     description: 'Description',
+    // Track management
+    tracks: 'Tracks',
+    addTrack: 'Add Track',
+    addObject: 'Add Object',
+    removeTrack: 'Remove Track',
+    noObjectsOnTrack: 'No objects on track',
   },
   fr: {
     appTitle: 'VR Hypno',
@@ -117,5 +123,11 @@ export const messages = {
     sessionObjectEditTitle: 'Éditer l\'objet',
     commonClose: 'Fermer',
     description: 'Description',
+    // Track management
+    tracks: 'Pistes',
+    addTrack: 'Ajouter une piste',
+    addObject: 'Ajouter un objet',
+    removeTrack: 'Supprimer la piste',
+    noObjectsOnTrack: 'Aucun objet sur cette piste',
   }
 };

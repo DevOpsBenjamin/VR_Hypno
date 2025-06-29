@@ -1,9 +1,19 @@
 <template>
-  <div class="h-8 w-24 bg-brand-300 rounded shadow flex items-center justify-center cursor-pointer">
-    <span class="text-xs text-white">Object</span>
+  <div 
+    class="h-6 bg-brand-300 hover:bg-brand-400 rounded shadow flex items-center justify-center cursor-pointer transition-colors px-1 min-w-12"
+    :title="`${trackObject.obj_type} (${trackObject.spawn}ms - ${trackObject.despawn}ms)`"
+  >
+    <span class="text-xs text-white font-medium truncate">
+      {{ trackObject.obj_type }}
+    </span>
   </div>
 </template>
 
 <script setup lang="ts">
-// TODO: Add props for object data
+import { defineProps } from 'vue';
+import type { TrackObj } from '@shared/domains/session/types';
+
+defineProps<{
+  trackObject: TrackObj;
+}>();
 </script>
