@@ -1,13 +1,13 @@
 <template>
-  <div class="flex items-center gap-2 h-8 bg-brand-100 rounded px-2 group hover:bg-brand-150 transition-colors">
-    <div class="font-mono text-xs text-brand-600 w-12">{{ trackIndex }}</div>
+  <div class="flex items-center gap-1 h-7 bg-brand-100 rounded px-1 group hover:bg-brand-150 transition-colors">
+    <div class="font-mono text-xs text-brand-600 w-3 text-center flex-shrink-0">{{ trackIndex }}</div>
     
     <!-- Track objects container -->
-    <div class="flex-1 flex gap-1 min-h-6 bg-brand-50 rounded border border-brand-200 px-1 py-1">
+    <div class="flex-1 flex gap-1 min-h-5 bg-brand-50 rounded border border-brand-200 px-1 py-0.5 overflow-x-auto">
       <TrackObjectBlock v-for="obj in track?.objects || []" :key="obj.obj_id" :track-object="obj" />
       
       <!-- Empty state for track -->
-      <div v-if="!track?.objects || track.objects.length === 0" class="text-xs text-brand-400 flex items-center">
+      <div v-if="!track?.objects || track.objects.length === 0" class="text-xs text-brand-400 flex items-center truncate">
         {{ t('noObjectsOnTrack') }}
       </div>
     </div>
@@ -16,7 +16,7 @@
     <div class="flex items-center gap-1">
       <button 
         @click="addObject"
-        class="btn btn-xs bg-brand-500 hover:bg-brand-600 text-white px-1 py-1 rounded text-xs h-6"
+        class="btn btn-xs bg-brand-500 hover:bg-brand-600 text-white px-1 py-0.5 rounded text-xs h-5"
         type="button"
       >
         + {{ t('addObject') }}
@@ -24,7 +24,7 @@
       
       <button 
         @click="removeTrack"
-        class="btn btn-xs bg-brand-100 hover:bg-brand-300 text-red-500 hover:text-red-400 px-1 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity w-6 h-6 flex items-center justify-center"
+        class="btn btn-xs bg-brand-100 hover:bg-brand-300 text-red-500 hover:text-red-400 px-1 py-0.5 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity w-5 h-5 flex items-center justify-center"
         type="button"
         :title="t('removeTrack')"
       >
