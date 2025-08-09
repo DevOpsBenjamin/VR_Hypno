@@ -18,5 +18,25 @@ Créer une application immersive d'hypnose en réalité virtuelle, avec deux mod
 - Export/sauvegarde et lecture de scènes
 - Support WebXR pour les casques VR
 
+## Structure du projet
+- **frontend-editor** : Application Vue 3 pour créer et éditer des scènes.
+- **frontend-player** : Lecteur 3D minimaliste basé sur HTML/JS/Three.js.
+- **shared** : Types et utilitaires communs aux deux frontends et au backend.
+- **src-tauri** : Backend Rust pour l'accès au système de fichiers et l'emballage de l'application.
+- **poc** : Prototypes et expérimentations.
+
+## Développement
+1. Installer les dépendances : `npm install`
+2. Lancer le mode développement : `npm run dev`
+3. Construire l'éditeur : `npm run build:editor`
+4. Construire le lecteur : `npm run build:player`
+
+## TODO / Améliorations
+- Finaliser l'interface de timeline et l'édition d'objets dans l'éditeur.
+- Remplacer la commande `copy` dans les scripts de build par une alternative multiplateforme.
+- Ajouter des tests unitaires et une intégration continue.
+- Renforcer la gestion des erreurs et les messages utilisateur.
+- Documenter davantage la structure du projet et les conventions de code.
+
 ## URL du projet
 https://github.com/DevOpsBenjamin/VR_Hypno
